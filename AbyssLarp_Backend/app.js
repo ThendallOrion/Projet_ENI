@@ -1,11 +1,16 @@
 var createError = require('http-errors');
 var express = require('express');
+
+require('./config/database');
+
+
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var gnRouter = require('./routes/gn');
 
 var app = express();
 
@@ -21,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/gn', gnRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
