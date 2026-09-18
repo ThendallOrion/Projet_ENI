@@ -2,8 +2,10 @@ package fr.agesfarouches.abysslarp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.*
+import fr.agesfarouches.abysslarp.screens.NFC.NfcMenu
 
-import fr.agesfarouches.abysslarp.screens.*
+import fr.agesfarouches.abysslarp.screens.menu_principal.GnDetailScreen
+import fr.agesfarouches.abysslarp.screens.menu_principal.GnListScreen
 import fr.agesfarouches.abysslarp.screens.menu_principal.HomeScreen
 
 
@@ -36,6 +38,9 @@ fun AppNavigation() {
                 navController = navController,
                 gnId = id?.toInt() ?: 0
             )
+        }
+        composable(Routes.NFC_MENU) {
+            NfcMenu(navController = navController)
         }
     }
 }

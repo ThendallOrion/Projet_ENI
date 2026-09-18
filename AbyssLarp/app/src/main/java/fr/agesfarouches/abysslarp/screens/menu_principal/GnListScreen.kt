@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.screens
+package fr.agesfarouches.abysslarp.screens.menu_principal
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
