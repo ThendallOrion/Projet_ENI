@@ -5,17 +5,19 @@ import com.google.gson.annotations.SerializedName
 data class GnListItem(
     @SerializedName("ID") val id: Int,
     @SerializedName("Nom") val nom: String,
-    @SerializedName("Date_debut") val Date_debut: String,
-    @SerializedName("Date_Fin") val Date_Fin: String,
+    @SerializedName("Date_debut") val dateDebut: String,
+    @SerializedName("Date_Fin") val dateFin: String,
     @SerializedName("Lieu") val lieu: String,
+    @SerializedName("Equipe_Orga") val equipeOrga: String,
+    @SerializedName("Description") val description: String,
     @SerializedName("Image") val image: String?
 )
 
 data class GnDetail(
     @SerializedName("ID") val id: Int,
     @SerializedName("Nom") val nom: String,
-    @SerializedName("Date_debut") val Date_debut: String,
-    @SerializedName("Date_Fin") val Date_Fin: String,
+    @SerializedName("Date_debut") val dateDebut: String,
+    @SerializedName("Date_Fin") val dateFin: String,
     @SerializedName("Lieu") val lieu: String,
     @SerializedName("Equipe_Orga") val equipeOrga: String,
     @SerializedName("Site_web") val siteWeb: String,

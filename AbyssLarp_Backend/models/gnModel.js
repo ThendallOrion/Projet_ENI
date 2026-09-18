@@ -2,7 +2,7 @@ import pool from '../config/database.js';
 
 export async function getGnList() {
   const [rows] = await pool.query(
-    'SELECT ID, Nom, Date_debut,Date_Fin, Lieu, Image FROM Liste_GN ORDER BY Date_debut ASC'
+    'SELECT ID, Nom, Date_debut, Date_Fin, Lieu, Equipe_Orga, Description, Image FROM Liste_GN ORDER BY Date_debut DESC  '
   );
   return rows;
 }

@@ -26,7 +26,16 @@ fun AppNavigation() {
             )
         }
         composable(Routes.GN_LIST) {
-            GnListScreen()
+            GnListScreen(navController = navController)
+        }
+        composable(Routes.GN_DETAIL) {
+            backStackEntry ->
+            val id = backStackEntry.arguments
+                ?.getString("id")
+            GnDetailScreen(
+                navController = navController,
+                gnId = id?.toInt() ?: 0
+            )
         }
     }
 }
