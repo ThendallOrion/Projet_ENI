@@ -36,6 +36,15 @@ android {
 }
 
 dependencies {
+    //navigation des fenetres
+    implementation("androidx.navigation:navigation-compose:2.9.8")
+    //pour l'icon du login
+    implementation("androidx.compose.material:material-icons-extended:1.7.5")
+    // Retrofit pour les appels réseau
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

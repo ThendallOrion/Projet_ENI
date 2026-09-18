@@ -12,7 +12,6 @@ import androidx.compose.ui.unit.dp
 fun HomeScreen(
     onNavigateToGN: () -> Unit
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -21,31 +20,22 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-
-
         Text(
             text = "Abyss Larp",
             style = MaterialTheme.typography.headlineLarge
         )
 
-
         Spacer(
             modifier = Modifier.height(40.dp)
         )
-
-
         Button(
             onClick = {
                 onNavigateToGN()
             }
         ) {
-
             Text(
                 "Gestion des GN"
             )
-
         }
-
     }
-
 }
