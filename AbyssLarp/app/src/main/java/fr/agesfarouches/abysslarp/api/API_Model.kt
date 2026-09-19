@@ -32,9 +32,8 @@ data class GnDetail(
 data class NfcLookupResponse(
     @SerializedName("type") val type: String?,
     @SerializedName("ID") val id: Int? = null,
-    @SerializedName("Nom") val nomCharacter: String? = null,
+    @SerializedName("Nom") val nom: String? = null,
     @SerializedName("Age") val age: Int? = null,
-    @SerializedName("nom") val nomStation: String? = null,
     @SerializedName("message") val message: String? = null
 )
 

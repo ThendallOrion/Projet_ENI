@@ -58,7 +58,7 @@ fun NfcMenu(navController: NavController, viewModel: NfcViewModel = viewModel())
                     val r = s.result
                     when (r.type) {
                         "CHARACTER" -> Text("Personnage : ${r.nomCharacter} (${r.age} ans)")
-                        "STATION" -> Text("Station : ${r.nomStation}")
+                        "STATION" -> Text("Station : ${r.nomCharacter}")
                         else -> Text("Type inconnu : ${r.type}")
                     }
                 }
