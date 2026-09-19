@@ -10,32 +10,20 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun HomeScreen(
-    onNavigateToGN: () -> Unit
+    onNavigateToGN: () -> Unit,
+    onNavigateToNfc: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(20.dp),
-
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = "Abyss Larp",
-            style = MaterialTheme.typography.headlineLarge
-        )
-
-        Spacer(
-            modifier = Modifier.height(40.dp)
-        )
-        Button(
-            onClick = {
-                onNavigateToGN()
-            }
-        ) {
-            Text(
-                "Gestion des GN"
-            )
-        }
+        Text("Abyss Larp", style = MaterialTheme.typography.headlineLarge)
+        Spacer(Modifier.height(40.dp))
+        Button(onClick = onNavigateToGN) { Text("Gestion des GN") }
+        Spacer(Modifier.height(12.dp))
+        Button(onClick = onNavigateToNfc) { Text("Scanner une carte NFC") }
     }
 }

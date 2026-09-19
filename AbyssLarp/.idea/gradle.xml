@@ -12,6 +12,8 @@
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
+        <option name="resolveExternalAnnotations" value="true" />
+        <option name="myGradleHome" value="C:\Gradle\gradle-9.4.1" />
       </GradleProjectSettings>
     </option>
   </component>

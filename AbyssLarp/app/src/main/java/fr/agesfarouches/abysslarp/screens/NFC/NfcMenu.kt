@@ -1,68 +1,62 @@
 package fr.agesfarouches.abysslarp.screens.NFC
 
-import android.app.PendingIntent
-import android.content.Intent
-import android.content.IntentFilter
-import android.nfc.NfcAdapter
-import android.os.Build
-import android.os.Bundle
-import androidx.compose.runtime.mutableStateOf
-import fr.agesfarouches.abysslarp.navigation.AppNavigation
+import android.app.Activity
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
-class NfcMenu : ComponentActivity() {
+@Composable
+fun NfcMenu(navController: NavController) {
+    val context = LocalContext.current
+    val activity = context as? Activity
 
-    private var nfcAdapter: NfcAdapter? = null
-    private val lastNfcResult = mutableStateOf<NfcReadResult?>(null)
+    val tagId by NfcController.lastTagId.collectAsState()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this)
-
-        setContent {
-            AppNavigation(lastNfcResult = lastNfcResult.value)
+    // Démarre l'écoute NFC à l'entrée sur l'écran, l'arrête à la sortie
+    DisposableEffect(Unit) {
+        activity?.let { NfcController.startListening(it) }
+        onDispose {
+            activity?.let { NfcController.stopListening(it) }
+            NfcController.clear()
         }
-
-        handleNfcIntent(intent)
     }
 
-    override fun onResume() {
-        super.onResume()
-        val adapter = nfcAdapter ?: return
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text("Scan NFC", style = MaterialTheme.typography.headlineMedium)
+        Spacer(Modifier.height(24.dp))
 
-        val pendingIntentFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.FLAG_MUTABLE
+        if (tagId == null) {
+            CircularProgressIndicator()
+            Spacer(Modifier.height(16.dp))
+            Text("Approchez une carte du téléphone…")
         } else {
-            0
+            Text(
+                text = "GUID détecté :",
+                style = MaterialTheme.typography.bodyLarge
+            )
+            Text(
+                text = tagId!!,
+                style = MaterialTheme.typography.headlineSmall
+            )
+            // TODO: appel API pour chercher si ce GUID est déjà associé à un élément
         }
-        val pendingIntent = PendingIntent.getActivity(
-            this, 0,
-            Intent(this, javaClass).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
-            pendingIntentFlags
-        )
 
-        val filters = arrayOf(
-            IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED),
-            IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED)
-        )
+        Spacer(Modifier.height(32.dp))
 
-        adapter.enableForegroundDispatch(this, pendingIntent, filters, null)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        nfcAdapter?.disableForegroundDispatch(this)
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        handleNfcIntent(intent)
-    }
-
-    private fun handleNfcIntent(intent: Intent) {
-        val result = NfcUtils.extractResult(intent) ?: return
-        lastNfcResult.value = result
-        setContent {
-            AppNavigation(lastNfcResult = result)
+        // Utile uniquement sur émulateur, qui n'a pas de puce NFC
+        OutlinedButton(onClick = { NfcController.simulateScan() }) {
+            Text("Simuler un scan (émulateur)")
         }
     }
 }
