@@ -28,3 +28,18 @@ data class GnDetail(
     @SerializedName("Prix_PNJ") val prixPNJ: Int,
     @SerializedName("Image") val image: String?
 )
+
+data class NfcLookupResponse(
+    @SerializedName("type") val type: String?,
+    @SerializedName("ID") val id: Int? = null,
+    @SerializedName("Nom") val nomCharacter: String? = null,
+    @SerializedName("Age") val age: Int? = null,
+    @SerializedName("nom") val nomStation: String? = null,
+    @SerializedName("message") val message: String? = null
+)
+
+data class NfcAssociateRequest(
+    @SerializedName("uid") val uid: String,
+    @SerializedName("entityType") val entityType: String,
+    @SerializedName("entityId") val entityId: Int
+)
