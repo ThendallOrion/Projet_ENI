@@ -57,8 +57,8 @@ fun NfcMenu(navController: NavController, viewModel: NfcViewModel = viewModel())
                 is NfcLookupState.Found -> {
                     val r = s.result
                     when (r.type) {
-                        "CHARACTER" -> Text("Personnage : ${r.nomCharacter} (${r.age} ans)")
-                        "STATION" -> Text("Station : ${r.nomCharacter}")
+                        "CHARACTER" -> Text("Personnage : ${r.nom} (${r.age} ans)")
+                        "STATION" -> Text("Station : ${r.nom}")
                         else -> Text("Type inconnu : ${r.type}")
                     }
                 }
