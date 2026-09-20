@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Gn } from './gn.model';
 import { GnService } from './gn.service';
@@ -19,17 +19,23 @@ export class GnListComponent implements OnInit {
 
   filter: GnFilter = 'tous';
 
-  constructor(private gnService: GnService) {}
+  constructor(private gnService: GnService, private ngZone: NgZone) {}
 
   ngOnInit(): void {
     this.gnService.getGnList().subscribe({
       next: (data) => {
-        this.gnList = data;
-        this.loading = false;
+        // On force l'exécution dans la zone Angular pour garantir
+        // que la vue se met à jour, même si fetch() a répondu hors zone.
+        this.ngZone.run(() => {
+          this.gnList = data;
+          this.loading = false;
+        });
       },
       error: () => {
-        this.error = true;
-        this.loading = false;
+        this.ngZone.run(() => {
+          this.error = true;
+          this.loading = false;
+        });
       }
     });
   }
