@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Gn } from '../../core/models/gn.model';
-import { GnService } from '../../core/services/gn.service';
+import { Gn } from './gn.model';
+import { GnService } from './gn.service';
 
 @Component({
   selector: 'app-gn-list',
