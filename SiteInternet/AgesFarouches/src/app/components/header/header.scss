@@ -22,6 +22,10 @@
   object-fit: cover; 
 }
 
+.logo-flipped {
+  transform: scaleX(-1);
+}
+
 .brand-text {
   display: flex;
   flex-direction: column;

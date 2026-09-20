@@ -1,0 +1,21 @@
+<section class="page-banner">
+  <h2>Grandeurs Nature et Murder Parties</h2>
+</section>
+
+<section class="page-content">
+  <p *ngIf="loading">Chargement des GN...</p>
+  <p *ngIf="error" class="error-message">
+    Impossible de récupérer la liste des GN pour le moment. Réessaie plus tard.
+  </p>
+
+  <div class="gn-grid" *ngIf="!loading && !error">
+    <p *ngIf="gnList.length === 0">Aucun GN à afficher pour le moment.</p>
+
+    <article class="gn-card" *ngFor="let gn of gnList">
+      <h3>{{ gn.titre }}</h3>
+      <p class="gn-dates">Du {{ gn.dateDebut }} au {{ gn.dateFin }}</p>
+      <p class="gn-lieu">{{ gn.lieu }}</p>
+      <p class="gn-description">{{ gn.description }}</p>
+    </article>
+  </div>
+</section>

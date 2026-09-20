@@ -1,0 +1,50 @@
+.page-banner {
+  background-color: #6da7ae;
+  color: #fff;
+  text-align: center;
+  padding: 3.5rem 1rem;
+
+  h2 {
+    margin: 0;
+    font-size: 2.2rem;
+    font-weight: 700;
+  }
+}
+
+.page-content {
+  background-color: #fff;
+  padding: 3rem;
+}
+
+.error-message {
+  color: #b03434;
+}
+
+.gn-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.gn-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.25rem;
+
+  h3 {
+    margin: 0 0 0.5rem;
+    color: #4f8b96;
+  }
+
+  .gn-dates,
+  .gn-lieu {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+  }
+
+  .gn-description {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+}
