@@ -116,7 +116,6 @@ fun AffichageList(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column {
-            // --- Affiche + badge date ---
             Box(modifier = Modifier.fillMaxWidth()) {
                 AsyncImage(
                     model = gn.image,
@@ -135,7 +134,6 @@ fun AffichageList(
                 )
             }
 
-            // --- Infos ---
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
                     text = gn.nom,

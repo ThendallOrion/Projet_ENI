@@ -65,7 +65,7 @@ fun NfcMenu(navController: NavController, viewModel: NfcViewModel = viewModel())
 
                 is NfcLookupState.Unknown -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("Cette carte n'est associée à rien pour le moment.")
-                    // TODO : UI d'association (choix entityType + entityId)
+                    // TODO : association (choix entityType + entityId)
                 }
 
                 is NfcLookupState.Error -> Text("Erreur : ${s.message}")
