@@ -20,15 +20,56 @@
   color: #b03434;
 }
 
+.filters {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.filter-btn {
+  border: 1px solid #4f8b96;
+  background-color: #fff;
+  color: #4f8b96;
+  padding: 0.5rem 1.25rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.15s, color 0.15s;
+
+  &:hover {
+    background-color: #e6f1f3;
+  }
+
+  &.active {
+    background-color: #4f8b96;
+    color: #fff;
+  }
+}
+
 .gn-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
 }
 
 .gn-card {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.gn-image {
+  display: block;
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  object-position: center;
+  flex-shrink: 0;
+}
+
+.gn-body {
   padding: 1.25rem;
 
   h3 {
@@ -37,14 +78,16 @@
   }
 
   .gn-dates,
-  .gn-lieu {
-    margin: 0 0 0.5rem;
+  .gn-lieu,
+  .gn-orga {
+    margin: 0 0 0.4rem;
     font-size: 0.9rem;
     color: #555;
   }
 
   .gn-description {
-    margin: 0;
+    margin: 0.75rem 0 0;
     font-size: 0.95rem;
+    white-space: pre-line;
   }
 }
