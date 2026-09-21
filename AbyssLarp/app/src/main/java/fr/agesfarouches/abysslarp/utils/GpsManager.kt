@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.components
+package fr.agesfarouches.abysslarp.utils
 
 import android.content.Intent
 import android.net.Uri
@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
+
 @Composable
 fun BoutonGps(adresse: String) {
 
