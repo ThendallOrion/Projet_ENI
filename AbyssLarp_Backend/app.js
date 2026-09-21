@@ -7,8 +7,6 @@ import cors from 'cors';
 
 import './config/database.js';
 
-import indexRouter from './routes/index.js';
-import usersRouter from './routes/users.js';
 import gnRouter from './routes/gn.js';
 import nfcRouter from './routes/nfc.js';
 
@@ -31,8 +29,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/gn', gnRouter);
 app.use("/nfc", nfcRouter);
 
