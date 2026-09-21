@@ -1,0 +1,1 @@
+const NFC_validTypes = ['CHARACTER', 'OBJECT', 'STATION'];

@@ -1,5 +1,5 @@
 import * as nfcModel from '../models/nfc.model.js';
-import 'dotenv/config';
+import  '../config/variable_update.js';
 
 export async function resolveTag(uid) {
   const tag = await nfcModel.findByUid(uid);
@@ -28,7 +28,7 @@ export async function resolveTag(uid) {
 }
 
 export async function associateTag(uid, entityType, entityId) {
-  const validTypes = process.env.NFC_validTypes;
+  const validTypes = NFC_validTypes;
   if (!validTypes.includes(entityType)) {
     const error = new Error('entityType invalide');
     error.status = 400;
