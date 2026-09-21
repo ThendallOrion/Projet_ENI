@@ -7,8 +7,8 @@ import cors from 'cors';
 
 import './config/database.js';
 
-import gnRouter from './routes/gn.js';
-import nfcRouter from './routes/nfc.js';
+import gnRouter from './routes/gn.route.js';
+import nfcRouter from './routes/nfc.route.js';
 
 import { fileURLToPath } from 'url';
 

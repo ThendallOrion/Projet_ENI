@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.components
+package fr.agesfarouches.abysslarp.utils
 
 import java.time.Instant
 import java.time.ZoneId

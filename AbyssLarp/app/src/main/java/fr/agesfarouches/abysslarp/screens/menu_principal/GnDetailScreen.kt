@@ -21,10 +21,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import androidx.core.net.toUri
-import fr.agesfarouches.abysslarp.VM.GnDetailState
-import fr.agesfarouches.abysslarp.VM.GnDetailViewModel
-import fr.agesfarouches.abysslarp.components.BoutonGps
-import fr.agesfarouches.abysslarp.components.formatDate
+import fr.agesfarouches.abysslarp.viewmodels.GnDetailState
+import fr.agesfarouches.abysslarp.viewmodels.GnDetailViewModel
+import fr.agesfarouches.abysslarp.utils.BoutonGps
+import fr.agesfarouches.abysslarp.utils.formatDate
 
 
 @OptIn(ExperimentalMaterial3Api::class)

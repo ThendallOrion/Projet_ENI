@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.VM
+package fr.agesfarouches.abysslarp.viewmodels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

@@ -1,11 +1,7 @@
-package fr.agesfarouches.abysslarp.VM
+package fr.agesfarouches.abysslarp.viewmodels
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import fr.agesfarouches.abysslarp.api.GnDetail
 import fr.agesfarouches.abysslarp.api.GnListItem
 import fr.agesfarouches.abysslarp.api.RetrofitClient
 import kotlinx.coroutines.flow.MutableStateFlow

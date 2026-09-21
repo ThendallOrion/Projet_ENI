@@ -10,8 +10,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import fr.agesfarouches.abysslarp.VM.NfcLookupState
-import fr.agesfarouches.abysslarp.VM.NfcViewModel
+import fr.agesfarouches.abysslarp.viewmodels.NfcLookupState
+import fr.agesfarouches.abysslarp.viewmodels.NfcViewModel
 
 @Composable
 fun NfcMenu(navController: NavController, viewModel: NfcViewModel = viewModel()) {

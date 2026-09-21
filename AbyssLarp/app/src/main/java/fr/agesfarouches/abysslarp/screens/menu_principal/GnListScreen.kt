@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import fr.agesfarouches.abysslarp.VM.GnListUiState
-import fr.agesfarouches.abysslarp.VM.GnListViewModel
+import fr.agesfarouches.abysslarp.viewmodels.GnListUiState
+import fr.agesfarouches.abysslarp.viewmodels.GnListViewModel
 import fr.agesfarouches.abysslarp.api.GnListItem
 import java.time.LocalDate
 import java.time.format.TextStyle
