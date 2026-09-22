@@ -136,18 +136,22 @@ fun GnDetailScreen(
                         modifier = Modifier.padding(top = 16.dp)
                     )
 
-                    Text(
-                        text = gn.siteWeb,
-                        color = Color.Blue,
-                        textDecoration = TextDecoration.Underline,
-                        modifier = Modifier.clickable {
+                    Button(
+                        onClick = {
                             val intent = Intent(
                                 Intent.ACTION_VIEW,
                                 gn.siteWeb.toUri()
                             )
                             context.startActivity(intent)
-                        }
-                    )
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                        //containerColor = Color.Blue
+                        )
+                    ) {
+                        Text(
+                            text = "🌐"+ gn.siteWeb
+                        )
+                    }
 
                     InfoText(
                         titre = "Description",

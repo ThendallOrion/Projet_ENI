@@ -1,1 +1,1 @@
-const NFC_validTypes = ['CHARACTER', 'OBJECT', 'STATION'];
+export const NFC_validTypes = ['CHARACTER', 'OBJECT', 'STATION'];

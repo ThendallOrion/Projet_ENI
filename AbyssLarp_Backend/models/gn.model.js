@@ -9,7 +9,7 @@ export async function getGnList() {
 
 export async function getGnById(id) {
   const [rows] = await pool.query(
-    'SELECT * FROM Liste_GN WHERE ID = ? LIMIT 1',
+    'SELECT Nom,Date_debut,Date_Fin,Lieu,Equipe_Orga,Site_web,Description,Ambiance,Liens_utiles,Prix_PJ,Prix_PNJ,Image FROM Liste_GN WHERE ID = ? LIMIT 1',
     [id]
   );
   return rows[0] || null;
