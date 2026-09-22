@@ -9,6 +9,7 @@ import './config/database.js';
 
 import gnRouter from './routes/gn.route.js';
 import nfcRouter from './routes/nfc.route.js';
+import authRouter from './routes/auth.route.js';
 
 import { fileURLToPath } from 'url';
 
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/gn', gnRouter);
 app.use("/nfc", nfcRouter);
+app.use("/auth", authRouter);
 
 
 // catch 404 and forward to error handler

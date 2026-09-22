@@ -12,8 +12,7 @@ const pool = mysql.createPool({
     queueLimit: 0
 });
 
-console.log("Pool MySQL créé");
-
+//Test de connection, reponse dans la console serveur
 (async()=>{
     try {
         const [result] = await pool.query("SELECT 1");
@@ -23,6 +22,5 @@ console.log("Pool MySQL créé");
         console.error("Test MySQL KO", err);
     }
 })();
-
 
 export default pool;
