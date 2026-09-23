@@ -9,7 +9,8 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun HomeScreen(
+fun HomeScreen_Test(
+    onNavigateToHOME: () -> Unit,
     onNavigateToGN: () -> Unit,
     onNavigateToNfc: () -> Unit,
     onNavigateToLogin: () -> Unit,
@@ -25,6 +26,8 @@ fun HomeScreen(
     ) {
         Text("Abyss Larp", style = MaterialTheme.typography.headlineLarge)
         Spacer(Modifier.height(40.dp))
+        Button(onClick = onNavigateToHOME) { Text("Home") }
+        Spacer(Modifier.height(12.dp))
         Button(onClick = onNavigateToGN) { Text("Gestion des GN") }
         Spacer(Modifier.height(12.dp))
         Button(onClick = onNavigateToNfc) { Text("Scanner une carte NFC") }

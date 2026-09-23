@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.viewmodels
+package fr.agesfarouches.abysslarp.viewmodels.menu_principal
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

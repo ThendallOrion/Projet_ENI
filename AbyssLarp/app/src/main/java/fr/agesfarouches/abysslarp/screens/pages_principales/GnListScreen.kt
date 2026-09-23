@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import fr.agesfarouches.abysslarp.viewmodels.GnListUiState
-import fr.agesfarouches.abysslarp.viewmodels.GnListViewModel
+import fr.agesfarouches.abysslarp.viewmodels.menu_principal.GnListUiState
+import fr.agesfarouches.abysslarp.viewmodels.menu_principal.GnListViewModel
 import fr.agesfarouches.abysslarp.api.GnListItem
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -84,11 +84,9 @@ fun GnListScreen(
                             AffichageList(
                                 gn = gn,
                                 onClick = {
-
                                     navController.navigate(
                                         "gn_detail/${gn.id}"
                                     )
-
                                 }
                             )
                         }
@@ -97,7 +95,6 @@ fun GnListScreen(
             }
         }
     }
-
 }
 
 @Composable

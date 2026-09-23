@@ -2,7 +2,6 @@ package fr.agesfarouches.abysslarp.screens.menu_principal
 
 
 import android.content.Intent
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -15,14 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import androidx.core.net.toUri
-import fr.agesfarouches.abysslarp.viewmodels.GnDetailState
-import fr.agesfarouches.abysslarp.viewmodels.GnDetailViewModel
+import fr.agesfarouches.abysslarp.viewmodels.menu_principal.GnDetailState
+import fr.agesfarouches.abysslarp.viewmodels.menu_principal.GnDetailViewModel
 import fr.agesfarouches.abysslarp.utils.BoutonGps
 import fr.agesfarouches.abysslarp.utils.formatDate
 

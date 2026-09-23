@@ -28,15 +28,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import fr.agesfarouches.abysslarp.viewmodels.LoginState
-import fr.agesfarouches.abysslarp.viewmodels.LoginViewModel
+import fr.agesfarouches.abysslarp.navigation.Routes
+import fr.agesfarouches.abysslarp.viewmodels.menu_principal.LoginState
+import fr.agesfarouches.abysslarp.viewmodels.menu_principal.LoginViewModel
 
 @Composable
 fun LoginScreen(navController: NavHostController,
@@ -134,7 +134,11 @@ fun LoginScreen(navController: NavHostController,
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = { viewModel.login(email, password) },
+            onClick = { viewModel.login(email, password)
+                navController.navigate(
+                    route = Routes.HOME
+                )
+                      },
             enabled = state !is LoginState.Loading,
             modifier = Modifier.fillMaxWidth()
         ) {
