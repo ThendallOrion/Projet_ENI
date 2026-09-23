@@ -7,7 +7,7 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface API_Service {
-    @POST("login")
+    @POST("auth/login")
     suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
     @GET("gn")
     suspend fun getGnList(): Response<List<GnListItem>>

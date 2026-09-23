@@ -2,7 +2,7 @@ package fr.agesfarouches.abysslarp.api
 
 import com.google.gson.annotations.SerializedName
 
-data class LoginRequest(val login: String, val password: String)
+data class LoginRequest(val email: String, val password: String)
 
 data class LoginResponse(
     val id: Int,
