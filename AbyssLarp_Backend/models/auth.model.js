@@ -6,9 +6,7 @@ export async function getUserByEmail(email) {
         `
         SELECT
         id,
-        pseudo,
-        email,
-        mot_de_passe_hash,
+        pseudo,               
         role
         FROM Utilisateur
         WHERE Email = ?

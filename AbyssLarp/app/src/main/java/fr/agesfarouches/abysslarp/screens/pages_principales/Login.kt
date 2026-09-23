@@ -21,6 +21,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +48,14 @@ fun LoginScreen(navController: NavHostController,
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     val state =  viewModel.state
+
+    LaunchedEffect(state) {
+        if (state is LoginState.Success) {
+            navController.navigate(Routes.HOME) {
+                popUpTo(Routes.LOGIN_MENU) { inclusive = true }
+            }
+        }
+    }
 
     //variable preremplie pour aller plus vite dans les test
     //code a supprimer pour la production
@@ -133,17 +142,17 @@ fun LoginScreen(navController: NavHostController,
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        //le bouton va lancer la fonction login du viewModel
+        //qui va changer le state en state.Success
+        //qui lancer la page Home avec toute les info charger
         Button(
-            onClick = { viewModel.login(email, password)
-                navController.navigate(
-                    route = Routes.HOME
-                )
-                      },
+            onClick = { viewModel.login(email, password) },
             enabled = state !is LoginState.Loading,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Se connecter")
         }
+
 
         Button(
             onClick = {

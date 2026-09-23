@@ -20,22 +20,11 @@ export async function login(req, res) {
         const userController = await authservice.loginUser(req.body);
         //test si la Connexion réussie et renvoie toutes les donnée
         
-        /*res.json({
-            message:"Connexion réussie",
-            user
-        });*/
-        
+        //retourne le jwt avec juste les donnée
         res.json({           
            
             accessToken: userController.token
-        });
-
-        //renvoie que les données utilent
-        /*res.json({
-            id: user.id,
-            pseudo: user.pseudo,
-            accessToken: token
-        });*/
+        });       
 
     } catch(error) {
         console.error(error);
