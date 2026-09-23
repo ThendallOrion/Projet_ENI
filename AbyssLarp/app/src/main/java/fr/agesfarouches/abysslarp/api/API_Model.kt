@@ -2,6 +2,13 @@ package fr.agesfarouches.abysslarp.api
 
 import com.google.gson.annotations.SerializedName
 
+data class LoginRequest(val login: String, val password: String)
+
+data class LoginResponse(
+    val id: Int,
+    val pseudo: String,
+    val accessToken: String
+)
 data class GnListItem(
     @SerializedName("ID") val id: Int,
     @SerializedName("Nom") val nom: String,

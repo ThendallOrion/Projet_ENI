@@ -11,7 +11,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun HomeScreen(
     onNavigateToGN: () -> Unit,
-    onNavigateToNfc: () -> Unit
+    onNavigateToNfc: () -> Unit,
+    onNavigateToLogin: () -> Unit,
+    //rappel new page
+    onNavigateToNewPage: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -25,5 +28,10 @@ fun HomeScreen(
         Button(onClick = onNavigateToGN) { Text("Gestion des GN") }
         Spacer(Modifier.height(12.dp))
         Button(onClick = onNavigateToNfc) { Text("Scanner une carte NFC") }
+        Spacer(Modifier.height(12.dp))
+        Button(onClick = onNavigateToLogin) { Text("login") }
+        //rappel new page
+        Spacer(Modifier.height(12.dp))
+        Button(onClick = onNavigateToNewPage) { Text("NewPage") }
     }
 }

@@ -7,7 +7,8 @@ import fr.agesfarouches.abysslarp.screens.NFC.NfcMenu
 import fr.agesfarouches.abysslarp.screens.menu_principal.GnDetailScreen
 import fr.agesfarouches.abysslarp.screens.menu_principal.GnListScreen
 import fr.agesfarouches.abysslarp.screens.menu_principal.HomeScreen
-
+import fr.agesfarouches.abysslarp.screens.menu_principal.LoginScreen
+import fr.agesfarouches.abysslarp.screens.menu_principal.TestNewPage
 
 @Composable
 fun AppNavigation() {
@@ -21,7 +22,10 @@ fun AppNavigation() {
         composable(Routes.HOME) {
             HomeScreen(
                 onNavigateToGN = { navController.navigate(Routes.GN_LIST) },
-                onNavigateToNfc = { navController.navigate(Routes.NFC_MENU) }
+                onNavigateToNfc = { navController.navigate(Routes.NFC_MENU) },
+                onNavigateToLogin = { navController.navigate(Routes.LOGIN_MENU) },
+                //rappel new page
+                onNavigateToNewPage = { navController.navigate(Routes.NEW_PAGE) }
             )
         }
         composable(Routes.GN_LIST) {
@@ -38,6 +42,14 @@ fun AppNavigation() {
         }
         composable(Routes.NFC_MENU) {
             NfcMenu(navController = navController)
+        }
+
+        composable(Routes.LOGIN_MENU) {
+            LoginScreen(navController = navController)
+        }
+        //rappel new page
+        composable(Routes.NEW_PAGE) {
+            TestNewPage(navController = navController)
         }
     }
 }
