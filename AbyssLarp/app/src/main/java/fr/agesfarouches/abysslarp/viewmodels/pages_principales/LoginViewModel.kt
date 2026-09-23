@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import fr.agesfarouches.abysslarp.SessionManager
 import fr.agesfarouches.abysslarp.api.LoginRequest
 import fr.agesfarouches.abysslarp.api.RetrofitClient
+import fr.agesfarouches.abysslarp.utils.JwtUtils
 import kotlinx.coroutines.launch
 
 sealed class LoginState {
@@ -32,8 +33,20 @@ class LoginViewModel(private val sessionManager: SessionManager) : ViewModel() {
                 val response = RetrofitClient.api.login(LoginRequest(email, password))
                 if (response.isSuccessful && response.body() != null) {
                     val body = response.body()!!
-                    sessionManager.saveSession(body.pseudo, body.accessToken)
-                    state = LoginState.Success(body.pseudo)
+                    val payload = JwtUtils.decode(body.accessToken)
+
+                    if (payload != null) {
+                        sessionManager.saveSession(
+                            id = payload.id,
+                            pseudo = payload.pseudo,
+                            email = payload.email,
+                            role = payload.role,
+                            accessToken = body.accessToken
+                        )
+                        state = LoginState.Success(payload.pseudo)
+                    } else {
+                        state = LoginState.Error("Jeton invalide reçu du serveur")
+                    }
                 } else {
                     state = LoginState.Error("Identifiants incorrects")
                 }

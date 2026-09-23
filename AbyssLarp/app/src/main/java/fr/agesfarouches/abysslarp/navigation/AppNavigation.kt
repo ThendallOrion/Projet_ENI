@@ -57,7 +57,6 @@ fun AppNavigation() {
             HomeScreen(
                 onNavigateToGN = { navController.navigate(Routes.GN_LIST) },
                 onNavigateToNfc = { navController.navigate(Routes.NFC_MENU) },
-                speudo = speudo_id,
                 onNavigateToNewPage = { navController.navigate(Routes.NEW_PAGE) }
 
             )

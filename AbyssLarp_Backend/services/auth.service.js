@@ -92,6 +92,7 @@ export async function loginUser(data) {
     const token = jwt.sign(
         {
             id: userService.id,
+            pseudo: userService.pseudo,
             email: userService.email,
             role: userService.role
         },
@@ -102,12 +103,6 @@ export async function loginUser(data) {
     );
 
     return {
-        token,
-        userService: {
-            id: userService.id,
-            pseudo: userService.pseudo,
-            email: userService.email,
-            role: userService.role
-        }
+        token       
     };
 }

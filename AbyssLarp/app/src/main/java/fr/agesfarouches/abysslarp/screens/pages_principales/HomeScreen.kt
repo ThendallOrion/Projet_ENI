@@ -13,29 +13,32 @@ import fr.agesfarouches.abysslarp.screens.menu.TopBarMenu
 fun HomeScreen(
     onNavigateToGN: () -> Unit,
     onNavigateToNfc: () -> Unit,
-    pseudo: String,
     //rappel new page
     onNavigateToNewPage: () -> Unit
 
 ) {
 
-    TopBarMenu(pseudo)
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text("Abyss Larp", style = MaterialTheme.typography.headlineLarge)
-        Spacer(Modifier.height(40.dp))
-        Button(onClick = onNavigateToGN) { Text("Gestion des GN") }
-        Spacer(Modifier.height(12.dp))
-        Button(onClick = onNavigateToNfc) { Text("Scanner une carte NFC") }
-        Spacer(Modifier.height(12.dp))
-        //rappel new page
-        Spacer(Modifier.height(12.dp))
-        Button(onClick = onNavigateToNewPage) { Text("NewPage") }
+    Scaffold(
+        topBar = { TopBarMenu(title = "Abyss Larp") }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        )
+        {
+            Text("Abyss Larp", style = MaterialTheme.typography.headlineLarge)
+            Spacer(Modifier.height(40.dp))
+            Button(onClick = onNavigateToGN) { Text("Gestion des GN") }
+            Spacer(Modifier.height(12.dp))
+            Button(onClick = onNavigateToNfc) { Text("Scanner une carte NFC") }
+            Spacer(Modifier.height(12.dp))
+            //rappel new page
+            Spacer(Modifier.height(12.dp))
+            Button(onClick = onNavigateToNewPage) { Text("NewPage") }
+        }
     }
 }

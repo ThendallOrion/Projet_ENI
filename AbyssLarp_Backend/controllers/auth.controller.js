@@ -25,9 +25,8 @@ export async function login(req, res) {
             user
         });*/
         
-        res.json({            
-            id: userController.userService.id,
-            pseudo: userController.userService.pseudo,
+        res.json({           
+           
             accessToken: userController.token
         });
 
