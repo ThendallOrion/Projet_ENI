@@ -20,7 +20,6 @@ class SessionManager(private val context: Context) {
 
     val idFlow: Flow<Int?> = context.dataStore.data.map { it[ID_KEY] }
     val pseudoFlow: Flow<String?> = context.dataStore.data.map { it[PSEUDO_KEY] }
-    val emailFlow: Flow<String?> = context.dataStore.data.map { it[EMAIL_KEY] }
     val roleFlow: Flow<String?> = context.dataStore.data.map { it[ROLE_KEY] }
     val accessTokenFlow: Flow<String?> = context.dataStore.data.map { it[ACCESS_TOKEN_KEY] }
 

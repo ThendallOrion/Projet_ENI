@@ -56,9 +56,7 @@ fun AppNavigation() {
 
             HomeScreen(
                 onNavigateToGN = { navController.navigate(Routes.GN_LIST) },
-                onNavigateToNfc = { navController.navigate(Routes.NFC_MENU) },
-                onNavigateToNewPage = { navController.navigate(Routes.NEW_PAGE) }
-
+                onNavigateToNfc = { navController.navigate(Routes.NFC_MENU) }
             )
         }
         //rappel new page

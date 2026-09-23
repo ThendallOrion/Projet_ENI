@@ -13,9 +13,6 @@ import fr.agesfarouches.abysslarp.screens.menu.TopBarMenu
 fun HomeScreen(
     onNavigateToGN: () -> Unit,
     onNavigateToNfc: () -> Unit,
-    //rappel new page
-    onNavigateToNewPage: () -> Unit
-
 ) {
 
     Scaffold(
@@ -32,13 +29,10 @@ fun HomeScreen(
         {
             Text("Abyss Larp", style = MaterialTheme.typography.headlineLarge)
             Spacer(Modifier.height(40.dp))
-            Button(onClick = onNavigateToGN) { Text("Gestion des GN") }
+            Button(onClick = onNavigateToGN) { Text("List des GN") }
             Spacer(Modifier.height(12.dp))
             Button(onClick = onNavigateToNfc) { Text("Scanner une carte NFC") }
             Spacer(Modifier.height(12.dp))
-            //rappel new page
-            Spacer(Modifier.height(12.dp))
-            Button(onClick = onNavigateToNewPage) { Text("NewPage") }
         }
     }
 }

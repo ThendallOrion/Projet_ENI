@@ -21,8 +21,7 @@ export async function login(req, res) {
         //test si la Connexion réussie et renvoie toutes les donnée
         
         //retourne le jwt avec juste les donnée
-        res.json({           
-           
+        res.json({
             accessToken: userController.token
         });       
 

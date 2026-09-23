@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 sealed class LoginState {
     object Idle : LoginState()
     object Loading : LoginState()
-    data class Success(val pseudo: String) : LoginState()
+    object Success : LoginState()
     data class Error(val message: String) : LoginState()
 }
 
@@ -43,7 +43,7 @@ class LoginViewModel(private val sessionManager: SessionManager) : ViewModel() {
                             role = payload.role,
                             accessToken = body.accessToken
                         )
-                        state = LoginState.Success(payload.pseudo)
+                        state = LoginState.Success
                     } else {
                         state = LoginState.Error("Jeton invalide reçu du serveur")
                     }

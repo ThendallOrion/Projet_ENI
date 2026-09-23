@@ -1,10 +1,15 @@
 Project 
 
+protection multi tentative
+reset password
+inscription
+doit faire la protections des routes 
 
 I.AbyssLARP_Backend
 
 connexion DB de hostinger
 création des routes
+jwt et crytpé le mot de pass
 
 II.AbyssLARP
 Kotlin
@@ -19,6 +24,9 @@ details d'un GN
 2.
 lit un NFC
 recherche dans la base de donné et retour à quoi cela correspond
+
+3.
+login
 
 
 III.list DB
