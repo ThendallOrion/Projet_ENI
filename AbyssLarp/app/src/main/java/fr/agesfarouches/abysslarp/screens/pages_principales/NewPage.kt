@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.screens.menu_principal
+package fr.agesfarouches.abysslarp.screens.pages_principales
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text

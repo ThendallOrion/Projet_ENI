@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.screens.menu_principal
+package fr.agesfarouches.abysslarp.screens.pages_principales
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import fr.agesfarouches.abysslarp.viewmodels.menu_principal.GnListUiState
-import fr.agesfarouches.abysslarp.viewmodels.menu_principal.GnListViewModel
+import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnListUiState
+import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnListViewModel
 import fr.agesfarouches.abysslarp.api.GnListItem
 import java.time.LocalDate
 import java.time.format.TextStyle

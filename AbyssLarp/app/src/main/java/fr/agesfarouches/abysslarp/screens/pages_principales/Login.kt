@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.screens.menu_principal
+package fr.agesfarouches.abysslarp.screens.pages_principales
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -35,8 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import fr.agesfarouches.abysslarp.navigation.Routes
-import fr.agesfarouches.abysslarp.viewmodels.menu_principal.LoginState
-import fr.agesfarouches.abysslarp.viewmodels.menu_principal.LoginViewModel
+import fr.agesfarouches.abysslarp.viewmodels.pages_principales.LoginState
+import fr.agesfarouches.abysslarp.viewmodels.pages_principales.LoginViewModel
 
 @Composable
 fun LoginScreen(navController: NavHostController,

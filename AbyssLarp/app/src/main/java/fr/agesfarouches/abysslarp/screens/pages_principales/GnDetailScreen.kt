@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.screens.menu_principal
+package fr.agesfarouches.abysslarp.screens.pages_principales
 
 
 import android.content.Intent
@@ -19,8 +19,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import androidx.core.net.toUri
-import fr.agesfarouches.abysslarp.viewmodels.menu_principal.GnDetailState
-import fr.agesfarouches.abysslarp.viewmodels.menu_principal.GnDetailViewModel
+import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnDetailState
+import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnDetailViewModel
 import fr.agesfarouches.abysslarp.utils.BoutonGps
 import fr.agesfarouches.abysslarp.utils.formatDate
 

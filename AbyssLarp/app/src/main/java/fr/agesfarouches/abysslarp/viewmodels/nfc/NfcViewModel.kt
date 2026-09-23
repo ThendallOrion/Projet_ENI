@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.viewmodels
+package fr.agesfarouches.abysslarp.viewmodels.nfc
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

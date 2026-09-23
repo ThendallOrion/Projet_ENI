@@ -1,14 +1,17 @@
 package fr.agesfarouches.abysslarp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
-import fr.agesfarouches.abysslarp.screens.NFC.NfcMenu
+import androidx.navigation.navArgument
+import fr.agesfarouches.abysslarp.screens.nfc.NfcMenu
 
-import fr.agesfarouches.abysslarp.screens.menu_principal.GnDetailScreen
-import fr.agesfarouches.abysslarp.screens.menu_principal.GnListScreen
-import fr.agesfarouches.abysslarp.screens.menu_principal.HomeScreen
-import fr.agesfarouches.abysslarp.screens.menu_principal.LoginScreen
-import fr.agesfarouches.abysslarp.screens.menu_principal.TestNewPage
+import fr.agesfarouches.abysslarp.screens.pages_principales.GnDetailScreen
+import fr.agesfarouches.abysslarp.screens.pages_principales.GnListScreen
+import fr.agesfarouches.abysslarp.screens.pages_principales.HomeScreen
+import fr.agesfarouches.abysslarp.screens.pages_principales.HomeScreen_Test
+import fr.agesfarouches.abysslarp.screens.pages_principales.LoginScreen
+import fr.agesfarouches.abysslarp.screens.pages_principales.TestNewPage
 
 @Composable
 fun AppNavigation() {
@@ -17,10 +20,11 @@ fun AppNavigation() {
 
     NavHost(
         navController = navController,
-        startDestination = Routes.HOME
+        startDestination = Routes.HOME_TEST
     ) {
-        composable(Routes.HOME) {
-            HomeScreen(
+        composable(Routes.HOME_TEST) {
+            HomeScreen_Test(
+                onNavigateToHOME = { navController.navigate(Routes.HOME) },
                 onNavigateToGN = { navController.navigate(Routes.GN_LIST) },
                 onNavigateToNfc = { navController.navigate(Routes.NFC_MENU) },
                 onNavigateToLogin = { navController.navigate(Routes.LOGIN_MENU) },
@@ -46,6 +50,17 @@ fun AppNavigation() {
 
         composable(Routes.LOGIN_MENU) {
             LoginScreen(navController = navController)
+        }
+
+        composable(Routes.HOME) {
+
+            HomeScreen(
+                onNavigateToGN = { navController.navigate(Routes.GN_LIST) },
+                onNavigateToNfc = { navController.navigate(Routes.NFC_MENU) },
+                speudo = speudo_id,
+                onNavigateToNewPage = { navController.navigate(Routes.NEW_PAGE) }
+
+            )
         }
         //rappel new page
         composable(Routes.NEW_PAGE) {

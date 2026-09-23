@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.screens.NFC
+package fr.agesfarouches.abysslarp.screens.nfc
 
 import android.app.Activity
 import androidx.compose.foundation.layout.*
@@ -10,8 +10,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import fr.agesfarouches.abysslarp.viewmodels.NfcLookupState
-import fr.agesfarouches.abysslarp.viewmodels.NfcViewModel
+import fr.agesfarouches.abysslarp.viewmodels.nfc.NfcLookupState
+import fr.agesfarouches.abysslarp.viewmodels.nfc.NfcViewModel
 
 @Composable
 fun NfcMenu(navController: NavController, viewModel: NfcViewModel = viewModel()) {

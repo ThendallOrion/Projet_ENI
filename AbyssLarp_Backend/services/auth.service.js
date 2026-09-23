@@ -70,18 +70,18 @@ export async function loginUser(data) {
     const { email, password } = data;
 
     // Recherche de l'utilisateur
-    const user = await authmodel.getUserByEmail(email);
+    const userService = await authmodel.getUserByEmail(email);
     console.log("Email reçu :", email);
-    console.log(user);
+    console.log(userService);
 
-    if (!user) {
+    if (!userService) {
         throw new Error("Email ou mot de passe incorrect");
     }
 
     // Vérifie le mot de passe
     const passwordOk = await bcrypt.compare(
         password,
-        user.mot_de_passe_hash
+        userService.mot_de_passe_hash
     );
 
     if (!passwordOk) {
@@ -91,9 +91,9 @@ export async function loginUser(data) {
     // Création du JWT
     const token = jwt.sign(
         {
-            id: user.id,
-            email: user.email,
-            role: user.role
+            id: userService.id,
+            email: userService.email,
+            role: userService.role
         },
         process.env.JWT_SECRET,
         {
@@ -103,11 +103,11 @@ export async function loginUser(data) {
 
     return {
         token,
-        user: {
-            id: user.id,
-            pseudo: user.pseudo,
-            email: user.email,
-            role: user.role
+        userService: {
+            id: userService.id,
+            pseudo: userService.pseudo,
+            email: userService.email,
+            role: userService.role
         }
     };
 }

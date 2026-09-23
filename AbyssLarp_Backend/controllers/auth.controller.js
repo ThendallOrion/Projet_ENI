@@ -17,12 +17,26 @@ export async function register(req, res) {
 
 export async function login(req, res) {
     try {        
-        const user = await authservice.loginUser(req.body);
-
-        res.json({
+        const userController = await authservice.loginUser(req.body);
+        //test si la Connexion réussie et renvoie toutes les donnée
+        
+        /*res.json({
             message:"Connexion réussie",
             user
+        });*/
+        
+        res.json({            
+            id: userController.userService.id,
+            pseudo: userController.userService.pseudo,
+            accessToken: userController.token
         });
+
+        //renvoie que les données utilent
+        /*res.json({
+            id: user.id,
+            pseudo: user.pseudo,
+            accessToken: token
+        });*/
 
     } catch(error) {
         console.error(error);

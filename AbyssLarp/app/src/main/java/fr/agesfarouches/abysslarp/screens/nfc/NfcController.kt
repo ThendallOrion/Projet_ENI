@@ -1,4 +1,4 @@
-package fr.agesfarouches.abysslarp.screens.NFC
+package fr.agesfarouches.abysslarp.screens.nfc
 
 import android.app.Activity
 import android.nfc.NfcAdapter

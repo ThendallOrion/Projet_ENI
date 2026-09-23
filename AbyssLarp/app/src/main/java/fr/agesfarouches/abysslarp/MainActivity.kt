@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import fr.agesfarouches.abysslarp.navigation.AppNavigation
-import fr.agesfarouches.abysslarp.screens.NFC.NfcController
+import fr.agesfarouches.abysslarp.screens.nfc.NfcController
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
