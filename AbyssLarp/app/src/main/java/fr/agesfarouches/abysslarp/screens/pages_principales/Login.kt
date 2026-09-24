@@ -43,22 +43,23 @@ import fr.agesfarouches.abysslarp.viewmodels.pages_principales.LoginViewModel
 fun LoginScreen(navController: NavHostController,
                 viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory))
 {
-    val username = remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     val state =  viewModel.state
 
+    //check tout le temps les changmement de state
     LaunchedEffect(state) {
         if (state is LoginState.Success) {
             navController.navigate(Routes.HOME) {
+                //supprime toutes les pages de l'historique
                 popUpTo(Routes.LOGIN_MENU) { inclusive = true }
             }
         }
     }
 
-    //variable preremplie pour aller plus vite dans les test
-    //code a supprimer pour la production
+    //variable preremplie pour aller plus vite dans les tests
+    //code à supprimer pour la production
     email = "test@test.com"
     password = "Test1234"
 

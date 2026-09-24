@@ -16,7 +16,7 @@ fun HomeScreen(
 ) {
 
     Scaffold(
-        topBar = { TopBarMenu(title = "Abyss Larp") }
+        topBar = { TopBarMenu(titre = "AbyssLarp") }
     ) { innerPadding ->
         Column(
             modifier = Modifier

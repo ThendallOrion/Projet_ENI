@@ -11,6 +11,7 @@ import fr.agesfarouches.abysslarp.screens.pages_principales.GnListScreen
 import fr.agesfarouches.abysslarp.screens.pages_principales.HomeScreen
 import fr.agesfarouches.abysslarp.screens.pages_principales.HomeScreen_Test
 import fr.agesfarouches.abysslarp.screens.pages_principales.LoginScreen
+import fr.agesfarouches.abysslarp.screens.pages_principales.ProfilScreen
 import fr.agesfarouches.abysslarp.screens.pages_principales.TestNewPage
 
 @Composable
@@ -58,6 +59,9 @@ fun AppNavigation() {
                 onNavigateToGN = { navController.navigate(Routes.GN_LIST) },
                 onNavigateToNfc = { navController.navigate(Routes.NFC_MENU) }
             )
+        }
+        composable(Routes.PROFIL) {
+            ProfilScreen(navController = navController)
         }
         //rappel new page
         composable(Routes.NEW_PAGE) {

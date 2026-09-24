@@ -7,5 +7,6 @@ object Routes {
     const val GN_DETAIL = "gn_detail/{id}"
     const val NFC_MENU = "nfc_menu"
     const val LOGIN_MENU = "login_menu"
+    const val PROFIL = "profil"
     const val NEW_PAGE = "new_page"
 }

@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,19 +21,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import fr.agesfarouches.abysslarp.SessionManager
+import fr.agesfarouches.abysslarp.navigation.Routes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBarMenu(
-    title: String,
-    navController: NavController? = null
+    titre : String,
+    navController: NavController? = null,
+    onNavigateToPROFIL: () -> Unit = { navController?.navigate(Routes.PROFIL) }
 ) {
     val context = LocalContext.current
     val sessionManager = remember { SessionManager(context) }
     val pseudo by sessionManager.pseudoFlow.collectAsState(initial = null)
 
     TopAppBar(
-        title = { Text(title) },
+        title = { Text(titre) },
         navigationIcon = {
             navController?.let {
                 IconButton(onClick = { it.popBackStack() }) {
@@ -44,10 +47,7 @@ fun TopBarMenu(
             }
         },
         actions = {
-            Text(
-                text = pseudo?.let { "👤 $it" } ?: "Non connecté",
-                modifier = Modifier.padding(end = 16.dp)
-            )
+            Button(onClick = onNavigateToPROFIL) { Text(pseudo?.let { "👤 $it" } ?: "Non connecté") }
         }
     )
 }

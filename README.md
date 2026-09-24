@@ -11,6 +11,8 @@ connexion DB de hostinger
 création des routes
 jwt et crytpé le mot de pass
 
+ca sera le fournisseur de me founir certificat SSL pour etre en https
+
 II.AbyssLARP
 Kotlin
 
