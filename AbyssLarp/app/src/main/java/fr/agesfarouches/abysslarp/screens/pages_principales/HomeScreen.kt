@@ -6,17 +6,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import fr.agesfarouches.abysslarp.screens.menu.TopBarMenu
 
 
 @Composable
 fun HomeScreen(
+    navController: NavController,
     onNavigateToGN: () -> Unit,
     onNavigateToNfc: () -> Unit,
 ) {
 
     Scaffold(
-        topBar = { TopBarMenu(titre = "AbyssLarp") }
+        topBar = { TopBarMenu(titre = "AbyssLarp", navController = navController) }
     ) { innerPadding ->
         Column(
             modifier = Modifier

@@ -1,11 +1,13 @@
 package fr.agesfarouches.abysslarp.screens.pages_principales
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -25,6 +27,8 @@ fun ProfilScreen(navController: NavController) {
     //val email by sessionManager.emailFlow.collectAsState(initial = null)
     val role by sessionManager.roleFlow.collectAsState(initial = null)
 
+    var pseudo_temp by remember(pseudo) { mutableStateOf(pseudo ?: "") }
+
 
 
     Scaffold(
@@ -40,6 +44,17 @@ fun ProfilScreen(navController: NavController) {
         ) {
             Text("Pseudo : ${pseudo ?: "-"}", style = MaterialTheme.typography.bodyLarge)
             Spacer(Modifier.height(8.dp))
+
+            //modifier mettre un test fix
+            //faire comme dans doctolib
+            OutlinedTextField(
+                value = pseudo_temp,
+                onValueChange = { pseudo_temp = it },
+                label = { Text("Pseudo") },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                modifier = Modifier.fillMaxWidth()
+            )
             //Text("Email : ${email ?: "-"}", style = MaterialTheme.typography.bodyLarge)
             Spacer(Modifier.height(8.dp))
             Text("Rôle : ${role ?: "-"}", style = MaterialTheme.typography.bodyLarge)

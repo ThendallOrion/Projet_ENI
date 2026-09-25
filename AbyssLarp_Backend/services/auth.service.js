@@ -46,14 +46,14 @@ export async function registerUser(userData) {
         (
             pseudo,
             email,
-            mot_de_passe_hash,            
+            mot_de_passe_hash            
         )
         VALUES (?, ?, ? )
         `,
         [
             pseudo,
             email,
-            passwordHash,           
+            passwordHash           
         ]
     );
 

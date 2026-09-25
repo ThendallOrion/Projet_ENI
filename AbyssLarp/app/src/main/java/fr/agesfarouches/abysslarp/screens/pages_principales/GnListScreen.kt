@@ -29,6 +29,7 @@ import coil.compose.AsyncImage
 import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnListUiState
 import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnListViewModel
 import fr.agesfarouches.abysslarp.api.GnListItem
+import fr.agesfarouches.abysslarp.screens.menu.TopBarMenu
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
@@ -39,8 +40,16 @@ fun GnListScreen(
     viewModel: GnListViewModel = viewModel()) {
     val state by viewModel.uiState.collectAsState()
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        when (val currentState = state) {
+    Scaffold(
+        topBar = { TopBarMenu(titre = "List GN", navController = navController) }
+    ) { paddingValues ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            contentAlignment = Alignment.Center
+        ) {
+            when (val currentState = state) {
             is GnListUiState.Loading -> CircularProgressIndicator()
 
             is GnListUiState.Error -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -95,6 +104,7 @@ fun GnListScreen(
             }
         }
     }
+}
 }
 
 @Composable

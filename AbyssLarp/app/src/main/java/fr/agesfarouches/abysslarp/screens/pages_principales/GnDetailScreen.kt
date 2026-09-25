@@ -19,6 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import androidx.core.net.toUri
+import fr.agesfarouches.abysslarp.screens.menu.TopBarMenu
 import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnDetailState
 import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnDetailViewModel
 import fr.agesfarouches.abysslarp.utils.BoutonGps
@@ -39,7 +40,8 @@ fun GnDetailScreen(
     val context = LocalContext.current
 
     Scaffold(
-        topBar = {
+        topBar = { TopBarMenu(titre = "GN", navController = navController) }
+        /* topBar = {
             TopAppBar(
                 title = {
                     Text("Détail du GN")
@@ -57,7 +59,7 @@ fun GnDetailScreen(
                     }
                 }
             )
-        }
+        } */
     ) { innerPadding ->
         when(val currentState = state){
             is GnDetailState.Loading -> {

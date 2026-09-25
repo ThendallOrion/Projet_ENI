@@ -54,8 +54,8 @@ fun AppNavigation() {
         }
 
         composable(Routes.HOME) {
-
             HomeScreen(
+                navController = navController,
                 onNavigateToGN = { navController.navigate(Routes.GN_LIST) },
                 onNavigateToNfc = { navController.navigate(Routes.NFC_MENU) }
             )

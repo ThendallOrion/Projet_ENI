@@ -169,7 +169,7 @@ fun LoginScreen(navController: NavHostController,
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("création d'un compte")
+            Text("Création d'un compte")
         }
     }
 }
