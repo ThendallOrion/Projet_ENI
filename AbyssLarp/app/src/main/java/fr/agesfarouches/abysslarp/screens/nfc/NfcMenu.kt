@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import fr.agesfarouches.abysslarp.screens.jeux.PowerScreen
 import fr.agesfarouches.abysslarp.viewmodels.nfc.NfcLookupState
 import fr.agesfarouches.abysslarp.viewmodels.nfc.NfcViewModel
 
@@ -58,7 +59,7 @@ fun NfcMenu(navController: NavController, viewModel: NfcViewModel = viewModel())
                     val r = s.result
                     when (r.type) {
                         "CHARACTER" -> Text("Personnage : ${r.nom} (${r.age} ans)")
-                        "STATION" -> Text("Station : ${r.nom}")
+                        "STATION" -> STATION(r.nom)
                         else -> Text("Type inconnu : ${r.type}")
                     }
                 }
@@ -79,4 +80,9 @@ fun NfcMenu(navController: NavController, viewModel: NfcViewModel = viewModel())
             Text("Simuler un scan (émulateur)")
         }
     }
+}
+
+@Composable
+fun STATION(r: String?) {
+    PowerScreen()
 }

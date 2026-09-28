@@ -36,13 +36,14 @@ fun AppNavigation() {
         composable(Routes.GN_LIST) {
             GnListScreen(navController = navController)
         }
-        composable(Routes.GN_DETAIL) {
+        composable(Routes.GN_DETAIL,
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) {
             backStackEntry ->
-            val id = backStackEntry.arguments
-                ?.getString("id")
+            val id = backStackEntry.arguments?.getInt("id") ?: return@composable
             GnDetailScreen(
                 navController = navController,
-                gnId = id?.toInt() ?: 0
+                gnId = id
             )
         }
         composable(Routes.NFC_MENU) {

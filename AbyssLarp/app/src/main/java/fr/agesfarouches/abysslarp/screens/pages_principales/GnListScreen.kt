@@ -29,6 +29,7 @@ import coil.compose.AsyncImage
 import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnListUiState
 import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnListViewModel
 import fr.agesfarouches.abysslarp.api.GnListItem
+import fr.agesfarouches.abysslarp.navigation.Routes
 import fr.agesfarouches.abysslarp.screens.menu.TopBarMenu
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -93,8 +94,9 @@ fun GnListScreen(
                             AffichageList(
                                 gn = gn,
                                 onClick = {
-                                    navController.navigate(
-                                        "gn_detail/${gn.id}"
+                                    navController.navigate(Routes.gnDetail(gn.id)
+                                    // au lieu de
+                                   // navController.navigate("gn_detail/${gn.id}"
                                     )
                                 }
                             )

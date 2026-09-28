@@ -1,5 +1,5 @@
 import * as nfcModel from '../models/nfc.model.js';
-import  '../config/variable_update.js';
+import { NFC_validTypes } from '../config/variable_update.js';
 
 export async function resolveTag(uid) {
   const tag = await nfcModel.findByUid(uid);
