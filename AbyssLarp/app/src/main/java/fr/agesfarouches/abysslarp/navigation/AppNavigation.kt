@@ -19,16 +19,20 @@ import fr.agesfarouches.abysslarp.screens.pages_principales.TestNewPage
 
 @Composable
 fun AppNavigation() {
+
+    //se rappel de l'historique de navigation
     val backStack = rememberNavBackStack(HomeTestKey)
 
     fun goTo(key: NavKey) {
         backStack.add(key)
     }
 
+    //retour en arriere
     fun goBack() {
         if (backStack.size > 1) backStack.removeLastOrNull()
     }
 
+    // Repartir de zéro équivalent de popUpTo
     fun resetTo(key: NavKey) {
         backStack.clear()
         backStack.add(key)
@@ -43,7 +47,7 @@ fun AppNavigation() {
         ),
         entryProvider = entryProvider {
 
-            // ---- Écrans de dev -------------------------------------------
+            //  Pages principales
             entry<HomeTestKey> {
                 HomeScreen_Test(
                     onNavigateToHOME = { goTo(HomeKey) },
@@ -57,7 +61,7 @@ fun AppNavigation() {
                 TestNewPage()
             }
 
-            // ---- Authentification ----------------------------------------
+            //Authentification
             entry<LoginKey> {
                 LoginScreen(
                     // Succès du login : on vide la pile et on part sur Home.
@@ -65,26 +69,23 @@ fun AppNavigation() {
                 )
             }
 
-            // ---- Pages principales ---------------------------------------
             entry<HomeKey> {
                 HomeScreen(
                     onNavigateToGN = { goTo(GnListKey) },
                     onNavigateToNfc = { goTo(NfcKey) },
                     onNavigateToProfil = { goTo(ProfilKey) }
-                    // Pas de bouton retour sur Home : voir TopBarMenu(showBack = false)
+                    // Pas de bouton retour sur Home
                 )
             }
             entry<ProfilKey> {
                 ProfilScreen(
                     onBack = { goBack() },
                     onNavigateToProfil = { /* déjà sur le profil */ },
-                    // Déconnexion : plus de retour possible vers les écrans connectés.
+                    // Déconnexion : plus de retour possible
                     onLogout = { resetTo(LoginKey) }
                 )
             }
             entry<NfcKey> {
-                // NfcMenu n'a pas de barre du haut : le retour se fait avec
-                // le bouton/geste Android, géré par NavDisplay (onBack).
                 NfcMenu()
             }
 
@@ -93,14 +94,10 @@ fun AppNavigation() {
                 GnListScreen(
                     onBack = { goBack() },
                     onNavigateToProfil = { goTo(ProfilKey) },
-                    // On fabrique la clé AVEC le paramètre : c'est typé,
-                    // pas de string, pas de risque de faute de frappe.
                     onGnClick = { gnId -> goTo(GnDetailKey(gnId)) }
                 )
             }
 
-            // Ici `key` est la clé qui a ouvert l'écran : on lit key.id
-            // directement, sans navArgument ni getInt("id").
             entry<GnDetailKey> { key ->
                 GnDetailScreen(
                     gnId = key.id,
@@ -109,8 +106,7 @@ fun AppNavigation() {
                 )
             }
 
-            // ---- Jeux -----------------------------------------------------
-            // Cette entrée manquait dans l'ancien NavHost (GAME_POWER était orphelin).
+            //  Jeux
             entry<GamePowerKey> {
                 PowerScreen()
             }

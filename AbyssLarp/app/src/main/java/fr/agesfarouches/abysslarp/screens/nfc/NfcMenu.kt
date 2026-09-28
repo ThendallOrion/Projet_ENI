@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import fr.agesfarouches.abysslarp.screens.jeux.PowerScreen
+import fr.agesfarouches.abysslarp.screens.nfc.List_nfc
 import fr.agesfarouches.abysslarp.viewmodels.nfc.NfcLookupState
 import fr.agesfarouches.abysslarp.viewmodels.nfc.NfcViewModel
 
@@ -57,8 +58,8 @@ fun NfcMenu(viewModel: NfcViewModel = viewModel()) {
                 is NfcLookupState.Found -> {
                     val r = s.result
                     when (r.type) {
-                        "CHARACTER" -> Text("Personnage : ${r.nom} (${r.age} ans)")
-                        "STATION" -> STATION(r.nom)
+                        List_nfc.CHARACTER_Type -> Text("Personnage : ${r.nom} (${r.age} ans)")
+                        List_nfc.STATION_Type -> Select_STATION(r.nom)
                         else -> Text("Type inconnu : ${r.type}")
                     }
                 }
@@ -82,6 +83,8 @@ fun NfcMenu(viewModel: NfcViewModel = viewModel()) {
 }
 
 @Composable
-fun STATION(r: String?) {
-    PowerScreen()
+fun Select_STATION(r: String?) {
+    when (r) {
+        List_nfc.POWER_screen ->PowerScreen()
+    }
 }

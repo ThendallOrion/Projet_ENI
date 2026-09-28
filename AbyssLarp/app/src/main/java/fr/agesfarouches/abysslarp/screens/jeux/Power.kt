@@ -5,5 +5,5 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun PowerScreen(){
-    Text("Abyss Larp")
+    Text("Abyss Larp 2")
 }
