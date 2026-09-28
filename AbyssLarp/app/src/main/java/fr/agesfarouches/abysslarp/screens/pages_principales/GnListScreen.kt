@@ -24,25 +24,32 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import fr.agesfarouches.abysslarp.api.GnListItem
+import fr.agesfarouches.abysslarp.screens.menu.TopBarMenu
 import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnListUiState
 import fr.agesfarouches.abysslarp.viewmodels.pages_principales.GnListViewModel
-import fr.agesfarouches.abysslarp.api.GnListItem
-import fr.agesfarouches.abysslarp.navigation.Routes
-import fr.agesfarouches.abysslarp.screens.menu.TopBarMenu
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 
 @Composable
 fun GnListScreen(
-    navController: NavController,
-    viewModel: GnListViewModel = viewModel()) {
+    onBack: () -> Unit = {},
+    onNavigateToProfil: () -> Unit = {},
+    onGnClick: (Int) -> Unit = {},
+    viewModel: GnListViewModel = viewModel()
+) {
     val state by viewModel.uiState.collectAsState()
 
     Scaffold(
-        topBar = { TopBarMenu(titre = "List GN", navController = navController) }
+        topBar = {
+            TopBarMenu(
+                titre = "List GN",
+                onBack = onBack,
+                onNavigateToProfil = onNavigateToProfil
+            )
+        }
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -51,62 +58,57 @@ fun GnListScreen(
             contentAlignment = Alignment.Center
         ) {
             when (val currentState = state) {
-            is GnListUiState.Loading -> CircularProgressIndicator()
+                is GnListUiState.Loading -> CircularProgressIndicator()
 
-            is GnListUiState.Error -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("Erreur : ${currentState.message}")
-                Spacer(Modifier.height(12.dp))
-                Button(onClick = { viewModel.fetchGnList() }) {
-                    Text("Réessayer")
-                }
-            }
-
-            is GnListUiState.Success -> {
-                var filter by remember {
-                    mutableStateOf(DateFilter.ALL)
-                }
-                val today = LocalDate.now()
-                val filteredList = currentState.gnList.filter { gn ->
-                    val dateGn = LocalDate.parse(
-                        gn.dateDebut.substring(0, 10)
-                    )
-                    when(filter) {
-                        DateFilter.ALL -> true
-                        DateFilter.FUTURE ->
-                            !dateGn.isBefore(today)
-                        DateFilter.PAST ->
-                            dateGn.isBefore(today)
+                is GnListUiState.Error -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("Erreur : ${currentState.message}")
+                    Spacer(Modifier.height(12.dp))
+                    Button(onClick = { viewModel.fetchGnList() }) {
+                        Text("Réessayer")
                     }
                 }
-                Column(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    FilterButtons(
-                        selected = filter,
-                        onSelected = {
-                            filter = it
+
+                is GnListUiState.Success -> {
+                    var filter by remember {
+                        mutableStateOf(DateFilter.ALL)
+                    }
+                    val today = LocalDate.now()
+                    val filteredList = currentState.gnList.filter { gn ->
+                        val dateGn = LocalDate.parse(
+                            gn.dateDebut.substring(0, 10)
+                        )
+                        when (filter) {
+                            DateFilter.ALL -> true
+                            DateFilter.FUTURE -> !dateGn.isBefore(today)
+                            DateFilter.PAST -> dateGn.isBefore(today)
                         }
-                    )
-                    LazyColumn(
+                    }
+                    Column(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(filteredList) { gn ->
-                            AffichageList(
-                                gn = gn,
-                                onClick = {
-                                    navController.navigate(Routes.gnDetail(gn.id)
-                                    // au lieu de
-                                   // navController.navigate("gn_detail/${gn.id}"
-                                    )
-                                }
-                            )
+                        FilterButtons(
+                            selected = filter,
+                            onSelected = {
+                                filter = it
+                            }
+                        )
+                        LazyColumn(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            items(filteredList) { gn ->
+                                AffichageList(
+                                    gn = gn,
+                                    onClick = {
+                                        onGnClick(gn.id)
+                                    }
+                                )
+                            }
                         }
                     }
                 }
             }
         }
     }
-}
 }
 
 @Composable
@@ -175,7 +177,7 @@ fun AffichageList(
 }
 
 @Composable
-private fun DateBadge(dateDebut: String,dateFin: String, modifier: Modifier = Modifier) {
+private fun DateBadge(dateDebut: String, dateFin: String, modifier: Modifier = Modifier) {
     val parsed = LocalDate.parse(dateDebut.substring(0, 10))
     val dayD = parsed?.dayOfMonth?.toString() ?: "?"
 
@@ -196,7 +198,7 @@ private fun DateBadge(dateDebut: String,dateFin: String, modifier: Modifier = Mo
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = month, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Red)
-        Text(text = dayD +"/"+ dayF, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+        Text(text = "$dayD/$dayF", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Black)
     }
 }
 
@@ -211,15 +213,12 @@ fun FilterButtons(
     selected: DateFilter,
     onSelected: (DateFilter) -> Unit
 ) {
-
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-
-
         FilterChip(
             selected = selected == DateFilter.ALL,
             onClick = {
@@ -229,7 +228,6 @@ fun FilterButtons(
                 Text("Tous")
             }
         )
-
 
         FilterChip(
             selected = selected == DateFilter.FUTURE,
@@ -241,7 +239,6 @@ fun FilterButtons(
             }
         )
 
-
         FilterChip(
             selected = selected == DateFilter.PAST,
             onClick = {
@@ -251,7 +248,5 @@ fun FilterButtons(
                 Text("Terminés")
             }
         )
-
     }
-
 }

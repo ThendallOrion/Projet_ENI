@@ -9,13 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import fr.agesfarouches.abysslarp.screens.jeux.PowerScreen
 import fr.agesfarouches.abysslarp.viewmodels.nfc.NfcLookupState
 import fr.agesfarouches.abysslarp.viewmodels.nfc.NfcViewModel
 
 @Composable
-fun NfcMenu(navController: NavController, viewModel: NfcViewModel = viewModel()) {
+fun NfcMenu(viewModel: NfcViewModel = viewModel()) {
     val context = LocalContext.current
     val activity = context as? Activity
 

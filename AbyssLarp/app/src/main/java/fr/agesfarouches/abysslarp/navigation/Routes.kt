@@ -1,18 +1,28 @@
 package fr.agesfarouches.abysslarp.navigation
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 
-object Routes {
-    const val HOME = "home"
-    const val HOME_TEST = "home_test"
-    const val GN_LIST = "gn_list"
+/*navigation 3
+NaveKay est l'interphase de navigation
 
-    const val NFC_MENU = "nfc_menu"
-    const val LOGIN_MENU = "login_menu"
-    const val PROFIL = "profil"
-    const val NEW_PAGE = "new_page"
+SerializersModule est un module de sérialisation de données
+Deux formes possibles :
+- data object : écran SANS paramètre (ex : Home, Login)
+- data class : écran AVEC paramètres (ex: GnDetailKey(id))
+*/
 
-    const val GN_DETAIL = "gn_detail/{id}"
-    fun gnDetail(id: Int) = "gn_detail/$id"
+//Pages principales
+data object LoginKey : NavKey
+data object HomeKey : NavKey
+data object ProfilKey : NavKey
+@Serializable data object NfcKey : NavKey
 
-    const val GAME_POWER = "game_power"
-}
+@Serializable data object GnListKey : NavKey
+@Serializable data class GnDetailKey(val id: Int) : NavKey
 
+//Jeux
+@Serializable data object GamePowerKey : NavKey
+
+//Page test
+@Serializable data object HomeTestKey : NavKey
+@Serializable data object NewPageKey : NavKey

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -36,21 +37,23 @@ android {
 }
 
 dependencies {
-    //navigation des fenetres
-    implementation("androidx.navigation:navigation-compose:2.9.8")
+    //navigation des fenetres avec navigation 3
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
     //pour l'icon du login
     implementation("androidx.compose.material:material-icons-extended:1.7.5")
     // Retrofit pour les appels réseau
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
-    //ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.0")
     //charger une image d'internet
     implementation("io.coil-kt:coil-compose:2.7.0")
     //sauvegarder de petites données de manière permanente.
     // Il remplace progressivement SharedPreferences
     implementation("androidx.datastore:datastore-preferences:1.1.1")
+    //ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.kotlinx.serialization.json)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)

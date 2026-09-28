@@ -34,27 +34,23 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
-import fr.agesfarouches.abysslarp.navigation.Routes
 import fr.agesfarouches.abysslarp.viewmodels.pages_principales.LoginState
 import fr.agesfarouches.abysslarp.viewmodels.pages_principales.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavHostController,
-                viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory))
-{
+fun LoginScreen(
+    onLoginSuccess: () -> Unit = {},
+    viewModel: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
-    val state =  viewModel.state
+    val state = viewModel.state
 
     //check tout le temps les changmement de state
     LaunchedEffect(state) {
         if (state is LoginState.Success) {
-            navController.navigate(Routes.HOME) {
-                //supprime toutes les pages de l'historique
-                popUpTo(Routes.LOGIN_MENU) { inclusive = true }
-            }
+            onLoginSuccess()
         }
     }
 

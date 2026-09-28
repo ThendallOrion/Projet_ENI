@@ -6,19 +6,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import fr.agesfarouches.abysslarp.screens.menu.TopBarMenu
-
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
-    onNavigateToGN: () -> Unit,
-    onNavigateToNfc: () -> Unit,
+    onNavigateToGN: () -> Unit = {},
+    onNavigateToNfc: () -> Unit = {},
+    onNavigateToProfil: () -> Unit = {},
 ) {
-
     Scaffold(
-        topBar = { TopBarMenu(titre = "AbyssLarp", navController = navController) }
+        topBar = {
+            TopBarMenu(
+                titre = "AbyssLarp",
+                showBack = false,
+                onNavigateToProfil = onNavigateToProfil
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -27,8 +30,7 @@ fun HomeScreen(
                 .padding(20.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
-        )
-        {
+        ) {
             Text("Abyss Larp", style = MaterialTheme.typography.headlineLarge)
             Spacer(Modifier.height(40.dp))
             Button(onClick = onNavigateToGN) { Text("List des GN") }

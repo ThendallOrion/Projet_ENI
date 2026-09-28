@@ -9,30 +9,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import fr.agesfarouches.abysslarp.SessionManager
-import fr.agesfarouches.abysslarp.navigation.Routes
 import fr.agesfarouches.abysslarp.screens.menu.TopBarMenu
-import fr.agesfarouches.abysslarp.viewmodels.pages_principales.LoginState
 import kotlinx.coroutines.launch
 
 @Composable
-fun ProfilScreen(navController: NavController) {
+fun ProfilScreen(
+    onBack: () -> Unit = {},
+    onNavigateToProfil: () -> Unit = {},
+    onLogout: () -> Unit = {}
+) {
     val context = LocalContext.current
     val sessionManager = remember { SessionManager(context) }
     val scope = rememberCoroutineScope()
 
     val pseudo by sessionManager.pseudoFlow.collectAsState(initial = null)
-    //val email by sessionManager.emailFlow.collectAsState(initial = null)
     val role by sessionManager.roleFlow.collectAsState(initial = null)
 
     var pseudo_temp by remember(pseudo) { mutableStateOf(pseudo ?: "") }
 
-
-
     Scaffold(
-        topBar = { TopBarMenu(titre = "Mon compte", navController = navController) }
+        topBar = {
+            TopBarMenu(
+                titre = "Mon compte",
+                onBack = onBack,
+                onNavigateToProfil = onNavigateToProfil
+            )
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -45,8 +48,6 @@ fun ProfilScreen(navController: NavController) {
             Text("Pseudo : ${pseudo ?: "-"}", style = MaterialTheme.typography.bodyLarge)
             Spacer(Modifier.height(8.dp))
 
-            //modifier mettre un test fix
-            //faire comme dans doctolib
             OutlinedTextField(
                 value = pseudo_temp,
                 onValueChange = { pseudo_temp = it },
@@ -55,7 +56,6 @@ fun ProfilScreen(navController: NavController) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 modifier = Modifier.fillMaxWidth()
             )
-            //Text("Email : ${email ?: "-"}", style = MaterialTheme.typography.bodyLarge)
             Spacer(Modifier.height(8.dp))
             Text("Rôle : ${role ?: "-"}", style = MaterialTheme.typography.bodyLarge)
 
@@ -65,9 +65,7 @@ fun ProfilScreen(navController: NavController) {
                 onClick = {
                     scope.launch {
                         sessionManager.clearSession()
-                        navController.navigate(Routes.LOGIN_MENU) {
-                            popUpTo(0) { inclusive = true }
-                        }
+                        onLogout()
                     }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
