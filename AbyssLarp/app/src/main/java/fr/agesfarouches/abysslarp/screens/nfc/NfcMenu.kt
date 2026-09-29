@@ -9,13 +9,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import fr.agesfarouches.abysslarp.screens.jeux.PowerScreen
-import fr.agesfarouches.abysslarp.screens.nfc.List_nfc
+import fr.agesfarouches.abysslarp.screens.menu.TopBarMenu
 import fr.agesfarouches.abysslarp.viewmodels.nfc.NfcLookupState
 import fr.agesfarouches.abysslarp.viewmodels.nfc.NfcViewModel
 
 @Composable
-fun NfcMenu(viewModel: NfcViewModel = viewModel()) {
+fun NfcMenu(
+    onBack: () -> Unit = {},
+    onPowerGame: () -> Unit = {},
+    viewModel: NfcViewModel = viewModel()
+) {
     val context = LocalContext.current
     val activity = context as? Activity
 
@@ -36,55 +39,67 @@ fun NfcMenu(viewModel: NfcViewModel = viewModel()) {
         tagId?.let { viewModel.lookup(it) }
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Text("Scan NFC", style = MaterialTheme.typography.headlineMedium)
-        Spacer(Modifier.height(24.dp))
-
-        if (tagId == null) {
-            CircularProgressIndicator()
-            Spacer(Modifier.height(16.dp))
-            Text("Approchez une carte du téléphone…")
-        } else {
-            Text("UID : $tagId")
-            Spacer(Modifier.height(16.dp))
-
-            when (val s = lookupState) {
-                is NfcLookupState.Loading -> CircularProgressIndicator()
-
-                is NfcLookupState.Found -> {
-                    val r = s.result
-                    when (r.type) {
-                        List_nfc.CHARACTER_Type -> Text("Personnage : ${r.nom} (${r.age} ans)")
-                        List_nfc.STATION_Type -> Select_STATION(r.nom)
-                        else -> Text("Type inconnu : ${r.type}")
-                    }
-                }
-
-                is NfcLookupState.Unknown -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text("Cette carte n'est associée à rien pour le moment.")
-                    // TODO : association (choix entityType + entityId)
-                }
-
-                is NfcLookupState.Error -> Text("Erreur : ${s.message}")
-
-                NfcLookupState.Idle -> {}
-            }
+    Scaffold(
+        topBar = {
+            TopBarMenu(
+                titre = "Scan NFC",
+                onBack = onBack
+            )
         }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text("Scan NFC", style = MaterialTheme.typography.headlineMedium)
+            Spacer(Modifier.height(24.dp))
 
-        Spacer(Modifier.height(32.dp))
-        OutlinedButton(onClick = { NfcController.simulateScan() }) {
-            Text("Simuler un scan (émulateur)")
+            if (tagId == null) {
+                CircularProgressIndicator()
+                Spacer(Modifier.height(16.dp))
+                Text("Approchez une carte du téléphone…")
+            } else {
+                Text("UID : $tagId")
+                Spacer(Modifier.height(16.dp))
+
+                when (val s = lookupState) {
+                    is NfcLookupState.Loading -> CircularProgressIndicator()
+
+                    is NfcLookupState.Found -> {
+                        val r = s.result
+                        when (r.type) {
+                            List_nfc.CHARACTER_Type -> Text("Personnage : ${r.nom} (${r.age} ans)")
+                            List_nfc.STATION_Type -> Select_STATION(r.nom, onPower = onPower)
+                            else -> Text("Type inconnu : ${r.type}")
+                        }
+                    }
+
+                    is NfcLookupState.Unknown -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("Cette carte n'est associée à rien pour le moment.")
+                        // TODO : association (choix entityType + entityId)
+                    }
+
+                    is NfcLookupState.Error -> Text("Erreur : ${s.message}")
+
+                    NfcLookupState.Idle -> {}
+                }
+            }
+
+            Spacer(Modifier.height(32.dp))
+            OutlinedButton(onClick = { NfcController.simulateScan() }) {
+                Text("Simuler un scan (émulateur)")
+            }
         }
     }
 }
 
 @Composable
-fun Select_STATION(r: String?) {
+fun Select_STATION(r: String?, onPower: () -> Unit = {}) {
     when (r) {
-        List_nfc.POWER_screen ->PowerScreen()
+        List_nfc.POWER_screen -> onPower()
     }
 }

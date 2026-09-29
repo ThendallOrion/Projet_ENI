@@ -86,7 +86,10 @@ fun AppNavigation() {
                 )
             }
             entry<NfcKey> {
-                NfcMenu()
+                NfcMenu(
+                    onBack = { goBack() },
+                    onPowerGame = { goTo(GamePowerKey) }
+                )
             }
 
             // ---- GN -------------------------------------------------------
