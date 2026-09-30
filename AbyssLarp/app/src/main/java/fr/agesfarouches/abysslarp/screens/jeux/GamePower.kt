@@ -1,6 +1,8 @@
 package fr.agesfarouches.abysslarp.screens.jeux
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -33,8 +35,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -54,15 +62,18 @@ private object AbyssColors {
     val NoeudFond = Color(0xFF1457FF)
 
     // Niveaux de charge d'un EnergyNode
-    val NiveauNul = Color(0xFF6B7280)       // 0 %
+    val PisteNul = Color(0xFF1C3A57)      // 0 %
     val NiveauCritique = Color(0xFFEF4444)  // < 30 %
     val NiveauFaible = Color(0xFFF59E0B)    // < 50 %
     val NiveauBon = Color(0xFF22C55E)       // < 100 %
     val NiveauPlein = Color(0xFF2C9FFF)     // 100 %
+
+    // Générateur circulaire
+    val GenerateurProgression = Color(0xFF38BDF8)
 }
 
 private fun couleurNiveau(pourcentage: Int): Color = when {
-    pourcentage <= 0 -> AbyssColors.NiveauNul
+    pourcentage <= 0 -> AbyssColors.PisteNul
     pourcentage < 30 -> AbyssColors.NiveauCritique
     pourcentage < 50 -> AbyssColors.NiveauFaible
     pourcentage < 100 -> AbyssColors.NiveauBon
@@ -330,6 +341,7 @@ fun NoeudElectrique(modifier: Modifier = Modifier) {
     }
 }
 */
+/*
 @Composable
 fun GeneratorCard(
     utilise: Int,
@@ -356,6 +368,73 @@ fun GeneratorCard(
             Text(text = "$utilise / $production unités", color = Color.White)
         }
     }
+}*/
+
+@Composable
+fun GeneratorCard(
+    utilise: Int,
+    production: Int,
+    modifier: Modifier = Modifier
+) {
+    val fraction = if (production > 0) (utilise / production.toFloat()).coerceIn(0f, 1f) else 0f
+    val fractionAnimee by animateFloatAsState(targetValue = fraction, label = "remplissageGenerateur")
+
+    Box(
+        modifier = modifier
+            .size(130.dp)
+            .background(AbyssColors.Fond_Panneau, CircleShape),
+        contentAlignment = Alignment.Center
+    ) {
+        // Anneau : piste complète + arc de progression (sens horaire, départ en haut)
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            val epaisseur = 10.dp.toPx()
+            val decalage = Offset(epaisseur / 2, epaisseur / 2)
+            val taille = Size(size.width - epaisseur, size.height - epaisseur)
+
+            drawArc(
+                color = AbyssColors.PisteNul,
+                startAngle = -90f,
+                sweepAngle = 360f,
+                useCenter = false,
+                topLeft = decalage,
+                size = taille,
+                style = Stroke(width = epaisseur)
+            )
+            if (fractionAnimee > 0f) {
+                drawArc(
+                    color = AbyssColors.GenerateurProgression,
+                    startAngle = -90f,
+                    sweepAngle = 360f * fractionAnimee,
+                    useCenter = false,
+                    topLeft = decalage,
+                    size = taille,
+                    style = Stroke(width = epaisseur, cap = StrokeCap.Round)
+                )
+            }
+        }
+
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Row() {
+                Icon(
+                    imageVector = Icons.Default.Bolt,
+                    contentDescription = ZoneVaisseau.GENERATEUR.label,
+                    tint = Color.Yellow,
+                    modifier = Modifier.size(24.dp)
+                )
+                Text(
+                    text = ZoneVaisseau.GENERATEUR.label.uppercase(),
+                    color = Color.White,
+                    fontSize = 11.sp
+                )
+            }
+            Text(
+                text = "$utilise / $production",
+                color = Color.White,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
 }
 
 @Composable
@@ -380,7 +459,7 @@ fun EnergyNode(
             LinearProgressIndicator(
                 progress = { pourcentage / 100f },
                 color = couleurBarre,
-                trackColor = AbyssColors.NiveauNul,
+                trackColor = AbyssColors.PisteNul,
                 //supprimer le point dessiné à la fin de la ligne
                 drawStopIndicator = {},
                 //pas d'ecart entre les lignes de couleur
