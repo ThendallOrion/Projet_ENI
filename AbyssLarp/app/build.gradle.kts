@@ -37,6 +37,10 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.constraintlayout.compose)
     //navigation des fenetres avec navigation 3
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)

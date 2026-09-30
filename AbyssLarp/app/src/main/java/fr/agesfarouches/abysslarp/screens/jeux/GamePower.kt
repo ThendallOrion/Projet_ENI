@@ -2,81 +2,151 @@ package fr.agesfarouches.abysslarp.screens.jeux
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bolt
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintSet
+import androidx.constraintlayout.compose.ConstraintSetScope
 
-//test color
-val Bleu_color = Color(0xFF5EC8FF)
-val Black_color = Color(0xFF061320)
-val Background = Color(0xFF061320)
-val Card = Color(0xFF0B2238)
-val Border = Color(0xFF1C7ED6)
-val Cyan = Color(0xFF38BDF8)
-val Blue = Color(0xFF1D4ED8)
-val Blue2 = Color(0xFF2C9FFF)
-val Green = Color(0xFF22C55E)
-val Orange = Color(0xFFF59E0B)
-val Red = Color(0xFFEF4444)
-val Purple = Color(0xFFA855F7)
-val White = Color(0xFFE8F1FF)
+// Couleurs et dimensions
 
-val padding_dist = 8.dp
+private object AbyssColors {
+    val Fond_Ecran = Color.Black
+    val Fond_Panneau = Color(0xFF091D30)
+    val Bordure = Color(0xFF2C9FFF)
+    val NoeudFond = Color(0xFF1457FF)
+}
+
+private val PaddingEcran = 8.dp
+private val MargeBord = 20.dp
+private val EspaceEntreNoeuds = 18.dp
+
+// Zones du vaisseau : source unique pour les ids, libellés
+
+enum class ZoneVaisseau(val label: String) {
+    GENERATEUR("Générateur"),
+    NOEUD_ELECTRIQUE("Nœud électrique"),
+    FTL("Poste FTL"),
+    HABITAT("Habitations"),
+    LABO("Laboratoires"),
+    DEFENSE("Défenses"),
+    BATTERIE("Batterie")
+}
+
+// Nœuds empilés en colonne à droite
+private val ZonesEnergie = listOf(
+    ZoneVaisseau.FTL,
+    ZoneVaisseau.HABITAT,
+    ZoneVaisseau.LABO,
+    ZoneVaisseau.DEFENSE,
+    ZoneVaisseau.BATTERIE
+)
+
+private fun ConstraintSetScope.ref(zone: ZoneVaisseau) = createRefFor(zone)
+
+private val ContraintesCentre = ConstraintSet {
+    constrain(ref(ZoneVaisseau.GENERATEUR)) {
+        top.linkTo(parent.top, 10.dp)
+        start.linkTo(parent.start, 10.dp)
+    }
+
+    constrain(ref(ZoneVaisseau.NOEUD_ELECTRIQUE)) {
+        centerTo(parent)
+    }
+
+    ZonesEnergie.forEachIndexed { index, zone ->
+        val previousRef = if (index > 0) ref(ZonesEnergie[index - 1]) else null
+        constrain(ref(zone)) {
+            if (previousRef == null) {
+                top.linkTo(parent.top, 40.dp)
+            } else {
+                top.linkTo(previousRef.bottom, EspaceEntreNoeuds)
+            }
+            end.linkTo(parent.end, MargeBord)
+        }
+    }
+}
+
+
+// Écran
+
 
 @Composable
-fun PowerScreen(
-    onBack: () -> Unit = {},
-    onGnClick: (Int) -> Unit = {}
-) {
-
-    Box(
+fun PowerScreen() {
+    Row(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF061320))
+            .background(AbyssColors.Fond_Ecran)
+            .padding(PaddingEcran)
     ) {
-        Column {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding_dist)
-            ) {
-                //menu droite
-                RightPanel(
-                    modifier = Modifier
-                        .weight(0.25f)
-                        .fillMaxHeight(),
-                    Text="droite"
-                )
+        PanneauLateral(
+            titre = "Énergie",
+            modifier = Modifier
+                .weight(0.15f)
+                .fillMaxHeight()
+        )
 
-                Spacer(Modifier.width(padding_dist))
-                //menu centrale
-                CenterPanel(
-                    modifier = Modifier
-                        .weight(0.50f)
-                        .fillMaxHeight()
-                )
+        Spacer(Modifier.width(PaddingEcran))
 
-                Spacer(Modifier.width(padding_dist))
-                //menu gauche
-                RightPanel(
-                    modifier = Modifier
-                        .weight(0.25f)
-                        .fillMaxHeight(),
-                            Text="gauche"
+        CenterPanel(
+            modifier = Modifier
+                .weight(0.70f)
+                .fillMaxHeight()
+        )
+
+        Spacer(Modifier.width(PaddingEcran))
+
+        PanneauLateral(
+            titre = "droite",
+            modifier = Modifier
+                .weight(0.15f)
+                .fillMaxHeight()
+        )
+    }
+}
+
+@Composable
+fun CenterPanel(modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier,
+        color = AbyssColors.Fond_Panneau,
+        shape = RoundedCornerShape(14.dp),
+        border = BorderStroke(1.dp, AbyssColors.Bordure)
+    ) {
+        ConstraintLayout(
+            constraintSet = ContraintesCentre,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            GeneratorCard(Modifier.layoutId(ZoneVaisseau.GENERATEUR))
+
+            NoeudElectrique(Modifier.layoutId(ZoneVaisseau.NOEUD_ELECTRIQUE))
+
+            ZonesEnergie.forEach { zone ->
+                EnergyNode(
+                    title = zone.label,
+                    modifier = Modifier.layoutId(zone)
                 )
             }
         }
@@ -84,54 +154,72 @@ fun PowerScreen(
 }
 
 @Composable
-fun CenterPanel(
+fun PanneauLateral(
+    titre: String,
     modifier: Modifier = Modifier
 ) {
-
     Surface(
         modifier = modifier,
-        color = Color(0xFF091D30),
+        color = AbyssColors.Fond_Panneau,
         shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(
-            1.dp,
-            color = Blue2
-        )
+        border = BorderStroke(1.dp, AbyssColors.Bordure)
     ) {
-        Box(
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                "CENTRE",
-                color = Color.White,
-                fontSize = 30.sp
-            )
+        Box(contentAlignment = Alignment.Center) {
+            Text(text = titre, color = Color.White)
         }
     }
 }
 
+//éléments centraux
+
 @Composable
-fun RightPanel(
-    modifier: Modifier = Modifier,
-    Text: String
-) {
-
-    Surface(
-        modifier = modifier,
-        color = Color(0xFF091D30),
-        shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(
-            1.dp,
-            color = Blue2
-        )
+fun NoeudElectrique(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .size(120.dp)
+            .background(AbyssColors.NoeudFond, CircleShape)
+            .border(3.dp, Color.Cyan, CircleShape),
+        contentAlignment = Alignment.Center
     ) {
+        Icon(
+            imageVector = Icons.Default.Bolt,
+            contentDescription = ZoneVaisseau.NOEUD_ELECTRIQUE.label,
+            tint = Color.White,
+            modifier = Modifier.size(48.dp)
+        )
+    }
+}
 
-        Box(
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                Text,
-                color = Color.White
-            )
-        }
+@Composable
+fun GeneratorCard(modifier: Modifier = Modifier) {
+    Card(
+        modifier = modifier.size(150.dp, 100.dp),
+        colors = CardDefaults.cardColors(containerColor = AbyssColors.Fond_Panneau),
+        shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(1.dp, AbyssColors.Bordure)
+    ) {
+        Text(
+            text = ZoneVaisseau.GENERATEUR.label.uppercase(),
+            modifier = Modifier.padding(16.dp),
+            color = Color.White
+        )
+    }
+}
+
+@Composable
+fun EnergyNode(title: String,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier.width(150.dp),
+        colors = CardDefaults.cardColors(containerColor = AbyssColors.Fond_Panneau),
+        shape = RoundedCornerShape(12.dp),
+        border = BorderStroke(1.dp, AbyssColors.Bordure)
+    ) {
+        Text(
+            text = title,
+            modifier = Modifier.padding(8.dp),
+            color = Color.White
+        )
     }
 }

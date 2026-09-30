@@ -47,7 +47,7 @@ fun AppNavigation() {
         ),
         entryProvider = entryProvider {
 
-            //  Pages principales
+            //  Page de teste de démarage
             entry<HomeTestKey> {
                 HomeScreen_Test(
                     onNavigateToHOME = { goTo(HomeKey) },
@@ -61,6 +61,7 @@ fun AppNavigation() {
                 TestNewPage()
             }
 
+            //Page qui doit être au démarrage
             //Authentification
             entry<LoginKey> {
                 LoginScreen(
@@ -85,14 +86,9 @@ fun AppNavigation() {
                     onLogout = { resetTo(LoginKey) }
                 )
             }
-            entry<NfcKey> {
-                NfcMenu(
-                    onBack = { goBack() },
-                    onPowerGame = { goTo(GamePowerKey) }
-                )
-            }
 
-            // ---- GN -------------------------------------------------------
+
+            //GN
             entry<GnListKey> {
                 GnListScreen(
                     onBack = { goBack() },
@@ -109,7 +105,14 @@ fun AppNavigation() {
                 )
             }
 
-            //  Jeux
+            //Jeux
+            entry<NfcKey> {
+                NfcMenu(
+                    onBack = { goBack() },
+                    onPowerGame = { goTo(GamePowerKey) }
+                )
+            }
+
             entry<GamePowerKey> {
                 PowerScreen()
             }

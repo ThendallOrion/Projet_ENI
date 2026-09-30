@@ -73,7 +73,7 @@ fun NfcMenu(
                         val r = s.result
                         when (r.type) {
                             List_nfc.CHARACTER_Type -> Text("Personnage : ${r.nom} (${r.age} ans)")
-                            List_nfc.STATION_Type -> Select_STATION(r.nom, onPower = onPower)
+                            List_nfc.STATION_Type -> Select_STATION(r.nom, onPower = onPowerGame)
                             else -> Text("Type inconnu : ${r.type}")
                         }
                     }
