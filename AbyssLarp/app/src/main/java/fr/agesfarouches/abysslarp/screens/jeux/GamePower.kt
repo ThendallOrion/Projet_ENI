@@ -4,7 +4,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,7 +37,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PaintingStyle.Companion.Stroke
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.layoutId
@@ -50,64 +48,15 @@ import androidx.constraintlayout.compose.ConstraintSet
 import androidx.constraintlayout.compose.ConstraintSetScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import fr.agesfarouches.abysslarp.ui.theme.AbyssColors
+import fr.agesfarouches.abysslarp.ui.theme.DimmensionMenu
+import fr.agesfarouches.abysslarp.ui.theme.PaddingEcran
 import fr.agesfarouches.abysslarp.viewmodels.jeux.EtatEnergie
 import fr.agesfarouches.abysslarp.viewmodels.jeux.PowerViewModel
 
-// Couleurs et dimensions
 
-private object AbyssColors {
-    val Fond_Ecran = Color.Black
-    val Fond_Panneau = Color(0xFF091D30)
-    val Bordure = Color(0xFF2C9FFF)
-    val NoeudFond = Color(0xFF1457FF)
 
-    // Niveaux de charge d'un EnergyNode
-    val PisteNul = Color(0xFF1C3A57)      // 0 %
-    val NiveauCritique = Color(0xFFEF4444)  // < 30 %
-    val NiveauFaible = Color(0xFFF59E0B)    // < 50 %
-    val NiveauBon = Color(0xFF22C55E)       // < 100 %
-    val NiveauPlein = Color(0xFF2C9FFF)     // 100 %
-
-    // Générateur circulaire
-    val GenerateurProgression = Color(0xFF38BDF8)
-}
-
-private fun couleurNiveau(pourcentage: Int): Color = when {
-    pourcentage <= 0 -> AbyssColors.PisteNul
-    pourcentage < 30 -> AbyssColors.NiveauCritique
-    pourcentage < 50 -> AbyssColors.NiveauFaible
-    pourcentage < 100 -> AbyssColors.NiveauBon
-    else -> AbyssColors.NiveauPlein
-}
-
-private val PaddingEcran = 8.dp
 private val MargeBord = 20.dp
-private val EspaceEntreNoeuds = 8.dp
-
-// Zones du vaisseau : source unique pour les ids, libellés
-
-const val PRODUCTION_GENERATEUR = 10
-
-enum class ZoneVaisseau(
-    val label: String,
-    val capaciteMax: Int = 0 // unités max que le nœud peut recevoir
-) {
-    GENERATEUR("Générateur"),
-    FTL("Moteur FTL", capaciteMax = 4),
-    SURVIE("Survie", capaciteMax = 3),
-    LABO("Laboratoires", capaciteMax = 3),
-    ARMEMENT("Armement", capaciteMax = 5),
-    BATTERIE("Batterie", capaciteMax = 4)
-}
-
-// Nœuds empilés en colonne à droite (de haut en bas)
-private val ZonesEnergie = listOf(
-    ZoneVaisseau.SURVIE,
-    ZoneVaisseau.FTL,
-    ZoneVaisseau.LABO,
-    ZoneVaisseau.ARMEMENT,
-    ZoneVaisseau.BATTERIE
-)
 
 private fun ConstraintSetScope.ref(zone: ZoneVaisseau) = createRefFor(zone)
 
@@ -123,7 +72,7 @@ private val ContraintesCentre = ConstraintSet {
             if (previousRef == null) {
                 top.linkTo(parent.top, PaddingEcran)
             } else {
-                top.linkTo(previousRef.bottom, EspaceEntreNoeuds)
+                top.linkTo(previousRef.bottom, PaddingEcran)
             }
             end.linkTo(parent.end, MargeBord)
         }
@@ -149,7 +98,7 @@ fun PowerScreen(
         PanneauLateral(
             titre = "Énergie",
             modifier = Modifier
-                .weight(0.15f)
+                .weight(DimmensionMenu.Panneau_Lateral)
                 .fillMaxHeight()
         )
 
@@ -158,7 +107,7 @@ fun PowerScreen(
         CenterPanel(
             etat = etat,
             modifier = Modifier
-                .weight(0.70f)
+                .weight(DimmensionMenu.Panneau_Central)
                 .fillMaxHeight()
         )
 
@@ -170,7 +119,7 @@ fun PowerScreen(
             onAjouter = viewModel::ajouter,
             onRetirer = viewModel::retirer,
             modifier = Modifier
-                .weight(0.15f)
+                .weight(DimmensionMenu.Panneau_Lateral)
                 .fillMaxHeight()
         )
     }
@@ -262,212 +211,4 @@ fun PanneauEnergie(
     }
 }
 
-@Composable
-private fun LigneReglage(
-    zone: ZoneVaisseau,
-    valeur: Int,
-    peutRetirer: Boolean,
-    peutAjouter: Boolean,
-    onRetirer: () -> Unit,
-    onAjouter: () -> Unit
-) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = zone.label,
-            color = Color.White,
-            fontSize = 12.sp
-        )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            BoutonUnite(
-                icone = Icons.Default.Remove,
-                description = "Retirer une unité à ${zone.label}",
-                enabled = peutRetirer,
-                onClick = onRetirer
-            )
-            Text(text = valeur.toString(), color = Color.White)
-            BoutonUnite(
-                icone = Icons.Default.Add,
-                description = "Ajouter une unité à ${zone.label}",
-                enabled = peutAjouter,
-                onClick = onAjouter
-            )
-        }
-    }
-}
 
-@Composable
-private fun BoutonUnite(
-    icone: androidx.compose.ui.graphics.vector.ImageVector,
-    description: String,
-    enabled: Boolean,
-    onClick: () -> Unit
-) {
-    IconButton(
-        onClick = onClick,
-        enabled = enabled,
-        modifier = Modifier.size(32.dp)
-    ) {
-        Icon(
-            imageVector = icone,
-            contentDescription = description,
-            tint = if (enabled) Color.White else Color.White.copy(alpha = 0.3f)
-        )
-    }
-}
-
-// ---------------------------------------------------------------------------
-// Composants du panneau central
-// ---------------------------------------------------------------------------
-/*
-@Composable
-fun NoeudElectrique(modifier: Modifier = Modifier) {
-    Box(
-        modifier = modifier
-            .size(120.dp)
-            .background(AbyssColors.NoeudFond, CircleShape)
-            .border(3.dp, Color.Cyan, CircleShape),
-        contentAlignment = Alignment.Center
-    ) {
-        Icon(
-            imageVector = Icons.Default.Bolt,
-            contentDescription = ZoneVaisseau.NOEUD_ELECTRIQUE.label,
-            tint = Color.Yellow,
-            modifier = Modifier.size(48.dp)
-        )
-    }
-}
-*/
-/*
-@Composable
-fun GeneratorCard(
-    utilise: Int,
-    production: Int,
-    modifier: Modifier = Modifier
-) {
-    Card(
-        modifier = modifier.size(150.dp, 100.dp),
-        colors = CardDefaults.cardColors(containerColor = AbyssColors.Fond_Panneau),
-        shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp, AbyssColors.Bordure)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row() {
-                Icon(
-                    imageVector = Icons.Default.Bolt,
-                    contentDescription = ZoneVaisseau.GENERATEUR.label,
-                    tint = Color.Yellow,
-                    modifier = Modifier.size(24.dp)
-                )
-                Text(text = ZoneVaisseau.GENERATEUR.label.uppercase(), color = Color.White)
-            }
-
-            Text(text = "$utilise / $production unités", color = Color.White)
-        }
-    }
-}*/
-
-@Composable
-fun GeneratorCard(
-    utilise: Int,
-    production: Int,
-    modifier: Modifier = Modifier
-) {
-    val fraction = if (production > 0) (utilise / production.toFloat()).coerceIn(0f, 1f) else 0f
-    val fractionAnimee by animateFloatAsState(targetValue = fraction, label = "remplissageGenerateur")
-
-    Box(
-        modifier = modifier
-            .size(130.dp)
-            .background(AbyssColors.Fond_Panneau, CircleShape),
-        contentAlignment = Alignment.Center
-    ) {
-        // Anneau : piste complète + arc de progression (sens horaire, départ en haut)
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val epaisseur = 10.dp.toPx()
-            val decalage = Offset(epaisseur / 2, epaisseur / 2)
-            val taille = Size(size.width - epaisseur, size.height - epaisseur)
-
-            drawArc(
-                color = AbyssColors.PisteNul,
-                startAngle = -90f,
-                sweepAngle = 360f,
-                useCenter = false,
-                topLeft = decalage,
-                size = taille,
-                style = Stroke(width = epaisseur)
-            )
-            if (fractionAnimee > 0f) {
-                drawArc(
-                    color = AbyssColors.GenerateurProgression,
-                    startAngle = -90f,
-                    sweepAngle = 360f * fractionAnimee,
-                    useCenter = false,
-                    topLeft = decalage,
-                    size = taille,
-                    style = Stroke(width = epaisseur, cap = StrokeCap.Round)
-                )
-            }
-        }
-
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Row() {
-                Icon(
-                    imageVector = Icons.Default.Bolt,
-                    contentDescription = ZoneVaisseau.GENERATEUR.label,
-                    tint = Color.Yellow,
-                    modifier = Modifier.size(24.dp)
-                )
-                Text(
-                    text = ZoneVaisseau.GENERATEUR.label.uppercase(),
-                    color = Color.White,
-                    fontSize = 11.sp
-                )
-            }
-            Text(
-                text = "$utilise / $production",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
-            )
-        }
-    }
-}
-
-@Composable
-fun EnergyNode(
-    title: String,
-    valeur: Int,
-    capaciteMax: Int,
-    modifier: Modifier = Modifier
-) {
-    val pourcentage = if (capaciteMax > 0) valeur * 100 / capaciteMax else 0
-    val couleurBarre = couleurNiveau(pourcentage)
-
-    Card(
-        modifier = modifier.width(150.dp),
-        colors = CardDefaults.cardColors(containerColor = AbyssColors.Fond_Panneau),
-        shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp, AbyssColors.Bordure)
-    ) {
-        Column(modifier = Modifier.padding(8.dp)) {
-            Text(text = title, color = Color.White)
-            Text(text = "$pourcentage %", color = couleurBarre, fontSize = 12.sp)
-            LinearProgressIndicator(
-                progress = { pourcentage / 100f },
-                color = couleurBarre,
-                trackColor = AbyssColors.PisteNul,
-                //supprimer le point dessiné à la fin de la ligne
-                drawStopIndicator = {},
-                //pas d'ecart entre les lignes de couleur
-                gapSize = 0.dp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp)
-            )
-        }
-    }
-}
