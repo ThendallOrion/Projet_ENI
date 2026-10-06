@@ -1,6 +1,8 @@
 package fr.agesfarouches.abysslarp.screens.jeux
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -39,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.agesfarouches.abysslarp.ui.theme.AbyssColors
 
+//couleur des noeuds selon le niveau de charge
 private fun couleurNiveau(pourcentage: Int): Color = when {
     pourcentage <= 0 -> AbyssColors.PisteNul
     pourcentage < 30 -> AbyssColors.NiveauCritique
@@ -47,6 +50,13 @@ private fun couleurNiveau(pourcentage: Int): Color = when {
     else -> AbyssColors.NiveauPlein
 }
 
+// Couleur du générateur selon la charge
+private fun couleurGenerateur(utilise: Int, production: Int): Color = when {
+    utilise <= production - 2 -> AbyssColors.GenerateurProgression
+    utilise <= production -> AbyssColors.GenerateurOptimal
+    utilise <= production + 2 -> AbyssColors.GenerateurSurcharge
+    else -> AbyssColors.GenerateurCritique
+}
 
 @Composable
 internal fun LigneReglage(
@@ -112,7 +122,18 @@ fun GeneratorCard(
     modifier: Modifier = Modifier
 ) {
     val fraction = if (production > 0) (utilise / production.toFloat()).coerceIn(0f, 1f) else 0f
-    val fractionAnimee by animateFloatAsState(targetValue = fraction, label = "remplissageGenerateur")
+    // tween permet de modifier la vitesse de l'annimation en ms
+    // 300 de base
+    val fractionAnimee by animateFloatAsState(
+        targetValue = fraction,
+        animationSpec = tween(durationMillis = 150),
+        label = "remplissageGenerateur"
+    )
+    val couleurAnneau by animateColorAsState(
+        targetValue = couleurGenerateur(utilise, production),
+        animationSpec = tween(durationMillis = 150),
+        label = "couleurGenerateur"
+    )
 
     Box(
         modifier = modifier
@@ -137,7 +158,7 @@ fun GeneratorCard(
             )
             if (fractionAnimee > 0f) {
                 drawArc(
-                    color = AbyssColors.GenerateurProgression,
+                    color = couleurAnneau,
                     startAngle = -90f,
                     sweepAngle = 360f * fractionAnimee,
                     useCenter = false,

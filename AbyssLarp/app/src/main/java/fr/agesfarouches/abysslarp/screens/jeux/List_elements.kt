@@ -23,3 +23,4 @@ internal val ZonesEnergie = listOf(
 )
 
 const val PRODUCTION_GENERATEUR = 10
+const val PRODUCTION_GENERATEUR_Surplue = 4

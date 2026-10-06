@@ -2,6 +2,7 @@ package fr.agesfarouches.abysslarp.viewmodels.jeux
 
 import androidx.lifecycle.ViewModel
 import fr.agesfarouches.abysslarp.screens.jeux.PRODUCTION_GENERATEUR
+import fr.agesfarouches.abysslarp.screens.jeux.PRODUCTION_GENERATEUR_Surplue
 import fr.agesfarouches.abysslarp.screens.jeux.ZoneVaisseau
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +21,7 @@ data class EtatEnergie(
         get() = allocations.values.sum()
 
     val disponible: Int
-        get() = production - totalUtilise
+        get() = production - totalUtilise + PRODUCTION_GENERATEUR_Surplue
 
     fun allouee(zone: ZoneVaisseau): Int = allocations[zone] ?: 0
 
