@@ -1,19 +1,23 @@
 Project 
 
+a Faire
 protection multi tentative
 reset password
 inscription
-doit faire la protections des routes 
+
 
 I.AbyssLARP_Backend
 
 connexion DB de hostinger
-création des routes
+création des routes et protection pour les routes hors lectures
 jwt et crytpé le mot de pass
 
 ca sera le fournisseur de me founir certificat SSL pour etre en https
 
 II.AbyssLARP
+note:
+navigation v3
+
 Kotlin
 
 0.
@@ -26,6 +30,7 @@ details d'un GN
 2.
 lit un NFC
 recherche dans la base de donné et retour à quoi cela correspond
+Exemple lance un mini jeux sur le NFC virtuel
 
 3.
 login
